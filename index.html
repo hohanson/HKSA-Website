@@ -326,16 +326,8 @@
     fetch('data/site.json')
       .then(r => r.json())
       .then(site => {
-        document.getElementById('footer-line1').innerHTML =
-          `${site.org_name} &middot; ${site.university} &middot; <a id="link-instagram-footer" href="#">@stanfordhksa</a>`;
-        document.getElementById('footer-line2').textContent =
-          `© ${site.academic_year} ${site.short_name} · Last updated ${site.last_updated}`;
-        // re-apply instagram link after footer is rendered
-        fetch('data/links.json')
-          .then(r => r.json())
-          .then(links => {
-            document.getElementById('link-instagram-footer').href = links.instagram;
-          });
+        document.getElementById('footer-line1').textContent =
+          `${site.org_name} · ${site.university}`;
       });
 
     // Load events from data/events.json
