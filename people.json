@@ -1,0 +1,20 @@
+[
+  {
+    "role": "President",
+    "name": "Heison Leong",
+    "bio": "Bio placeholder.",
+    "email": "epicmark@stanford.edu"
+  },
+  {
+    "role": "Vice President",
+    "name": "Chun Hei Tai",
+    "bio": "Bio placeholder.",
+    "email": "tchtai@stanford.edu"
+  },
+  {
+    "role": "Financial Officer",
+    "name": "Hanson Ho",
+    "bio": "Bio placeholder.",
+    "email": "hohanson@stanford.edu"
+  }
+]

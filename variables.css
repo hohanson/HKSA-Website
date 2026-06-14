@@ -1,0 +1,17 @@
+/* HKSA Design Tokens
+   Stanford Identity Guide: https://identity.stanford.edu/design-elements/color/
+   ---------------------------------------------------------------- */
+
+:root {
+  /* Colors */
+  --red:     #B1040E;   /* Digital red - primary accent */
+  --black:   #2E2D29;   /* Stanford black - headings, dark backgrounds */
+  --bg:      #F5F5F0;   /* Warm off-white - page background */
+  --white:   #FFFFFF;   /* White - cards, button text */
+  --grey:    #53565A;   /* Stanford cool grey - body text, secondary */
+  --border:  #D5D5D4;   /* 20% Stanford black - dividers, card borders, light text on dark */
+
+  /* Typography */
+  --font-display: 'Playfair Display', serif;
+  --font-body:    'Inter', sans-serif;
+}

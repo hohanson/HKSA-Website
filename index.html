@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HKSA - Hong Kong Student Association at Stanford</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="variables.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--black);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+      padding: 0 2rem;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--black);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+
+    .nav-logo span { color: var(--red); }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--grey);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--red); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 80px 2rem 4rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .hero-inner {
+      display: flex;
+      align-items: flex-start;
+      gap: 3rem;
+    }
+
+    .hero-bar {
+      width: 5px;
+      height: 180px;
+      background: var(--red);
+      flex-shrink: 0;
+      margin-top: 0.4rem;
+    }
+
+    .hero-text h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--black);
+      margin-bottom: 1.2rem;
+    }
+
+    .hero-text h1 em {
+      font-style: normal;
+      color: var(--red);
+    }
+
+    .hero-text p {
+      font-size: 1.1rem;
+      color: var(--grey);
+      font-weight: 300;
+      max-width: 480px;
+      margin-bottom: 2rem;
+      line-height: 1.8;
+    }
+
+    .hero-cta {
+      display: inline-block;
+      background: var(--red);
+      color: var(--white);
+      padding: 0.75rem 2rem;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      transition: opacity 0.2s;
+    }
+
+    .hero-cta:hover { opacity: 0.85; }
+
+    /* SECTIONS */
+    section {
+      padding: 5rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 1.2rem;
+    }
+
+    .section-body {
+      font-size: 1rem;
+      color: var(--grey);
+      max-width: 580px;
+      line-height: 1.9;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* CARDS (shared by events and people) */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .card {
+      background: var(--white);
+      padding: 1.8rem;
+      border: 1px solid var(--border);
+      transition: border-color 0.2s;
+    }
+
+    .card:hover { border-color: var(--red); }
+
+    .card-tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 0.6rem;
+    }
+
+    .card h3 {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      color: var(--black);
+      margin-bottom: 0.5rem;
+    }
+
+    .card p {
+      font-size: 0.88rem;
+      color: var(--grey);
+      line-height: 1.7;
+    }
+
+    /* JOIN */
+    .join-block {
+      background: var(--black);
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+
+    .join-block .section-label { color: var(--red); }
+    .join-block .section-title { color: var(--white); margin-bottom: 1rem; }
+    .join-block p { color: var(--border); margin-bottom: 2rem; font-size: 1rem; }
+
+    .join-cta {
+      display: inline-block;
+      border: 2px solid var(--white);
+      color: var(--white);
+      padding: 0.75rem 2rem;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .join-cta:hover { background: var(--white); color: var(--black); }
+    .join-buttons { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+
+    /* FOOTER */
+    footer {
+      background: var(--black);
+      border-top: 1px solid var(--grey);
+      padding: 2rem;
+      text-align: center;
+    }
+
+    footer p { font-size: 0.8rem; color: var(--border); }
+    footer a { color: var(--border); text-decoration: none; transition: color 0.2s; }
+    footer a:hover { color: var(--red); }
+
+    /* RESPONSIVE */
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .hero-inner { flex-direction: column; gap: 1.5rem; }
+      .hero-bar { width: 40px; height: 5px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">Stanford <span>HKSA</span></a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#events">Events</a></li>
+      <li><a href="#people">People</a></li>
+      <li><a href="#join">Join</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-bar"></div>
+      <div class="hero-text">
+        <h1>Hong Kong<br/>at <em>Stanford.</em></h1>
+        <p>A home away from home for Hong Kong students, friends, and anyone who loves the culture. We gather, celebrate, and look out for each other.</p>
+        <a href="#join" class="hero-cta">Get Involved</a>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-label">Who We Are</div>
+    <h2 class="section-title">More than a student org.</h2>
+    <p class="section-body">HKSA is Stanford's community for students connected to Hong Kong - whether you grew up there, have family there, or simply share an affinity for its food, language, and spirit. We run social events, cultural celebrations, and off-campus adventures throughout the year.</p>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- EVENTS - loaded from data/events.json -->
+  <section id="events">
+    <div class="section-label">What We Do</div>
+    <h2 class="section-title">Events throughout the year.</h2>
+    <p class="section-body">From weekly gatherings to multi-day retreats, there is always something on.</p>
+    <div class="card-grid" id="events-grid"></div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- PEOPLE - loaded from data/people.json -->
+  <section id="people">
+    <div class="section-label">Our Team</div>
+    <h2 class="section-title">Student leaders.</h2>
+    <p class="section-body">Meet the officers running HKSA this year.</p>
+    <div class="card-grid" id="people-grid"></div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- JOIN -->
+  <div class="join-block" id="join">
+    <div class="section-label">Join Us</div>
+    <h2 class="section-title">Find your people.</h2>
+    <p>Sign up on CardinalEngage to become an official member, follow us on Instagram, or join our mailing list to stay in the loop.</p>
+    <div class="join-buttons">
+      <a id="link-cardinalengage" href="#" class="join-cta" target="_blank">CardinalEngage</a>
+      <a id="link-instagram" href="#" class="join-cta" target="_blank">Instagram</a>
+      <a id="link-mailing-list" href="#" class="join-cta">Mailing List</a>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer id="contact">
+    <p>Hong Kong Student Association &mdash; Stanford University &mdash; <a id="link-instagram-footer" href="#">@stanfordhksa</a></p>
+  </footer>
+
+  <script>
+    // Load events from data/events.json
+    fetch('data/events.json')
+      .then(r => r.json())
+      .then(events => {
+        const grid = document.getElementById('events-grid');
+        grid.innerHTML = events.map(e => `
+          <div class="card">
+            <div class="card-tag">${e.tag}</div>
+            <h3>${e.name}</h3>
+            <p>${e.description}</p>
+          </div>
+        `).join('');
+      });
+
+    // Load people from data/people.json
+    fetch('data/people.json')
+      .then(r => r.json())
+      .then(people => {
+        const grid = document.getElementById('people-grid');
+        grid.innerHTML = people.map(p => `
+          <div class="card">
+            <div class="card-tag">${p.role}</div>
+            <h3>${p.name}</h3>
+            <p>${p.bio}</p>
+            ${p.email ? `<p><a href="mailto:${p.email}" style="color:var(--red);font-size:0.85rem;">${p.email}</a></p>` : ''}
+          </div>
+        `).join('');
+      });
+
+    // Load links from data/links.json
+    fetch('data/links.json')
+      .then(r => r.json())
+      .then(links => {
+        document.getElementById('link-cardinalengage').href = links.cardinalengage;
+        document.getElementById('link-instagram').href = links.instagram;
+        document.getElementById('link-mailing-list').href = links.mailing_list;
+        document.getElementById('link-instagram-footer').href = links.instagram;
+      });
+  </script>
+
+</body>
+</html>

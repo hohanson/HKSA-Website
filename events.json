@@ -1,0 +1,22 @@
+[
+  {
+    "tag": "Social",
+    "name": "Food & Gather",
+    "description": "Regular on-campus hangouts with HK food, mahjong, and karaoke. The heart of HKSA."
+  },
+  {
+    "tag": "Cultural",
+    "name": "Lunar New Year",
+    "description": "Celebrating the new year together with food, traditions, and good company."
+  },
+  {
+    "tag": "Off-campus",
+    "name": "Dim Sum Run",
+    "description": "Group trips to the best dim sum spots around the Bay Area."
+  },
+  {
+    "tag": "Annual",
+    "name": "Year-End Celebration",
+    "description": "Hotpot and karaoke to close out the year with the full HKSA family."
+  }
+]
