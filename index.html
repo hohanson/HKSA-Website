@@ -328,6 +328,8 @@
       .then(site => {
         document.getElementById('footer-line1').textContent =
           `${site.org_name} · ${site.university}`;
+        document.getElementById('footer-line2').textContent =
+          `© ${site.academic_year} ${site.short_name} · Last updated ${site.last_updated}`;
       });
 
     // Load events from data/events.json
