@@ -317,11 +317,27 @@
 
   <!-- FOOTER -->
   <footer id="contact">
-    <p>Hong Kong Student Association &middot; Stanford University &middot; <a id="link-instagram-footer" href="#">@stanfordhksa</a></p>
-    <p style="margin-top: 0.4rem;">© 2026–2027 Stanford HKSA &middot; Last updated June 2026</p>
+    <p id="footer-line1"></p>
+    <p id="footer-line2" style="margin-top: 0.4rem;"></p>
   </footer>
 
   <script>
+    // Load site metadata from data/site.json
+    fetch('data/site.json')
+      .then(r => r.json())
+      .then(site => {
+        document.getElementById('footer-line1').innerHTML =
+          `${site.org_name} &middot; ${site.university} &middot; <a id="link-instagram-footer" href="#">@stanfordhksa</a>`;
+        document.getElementById('footer-line2').textContent =
+          `© ${site.academic_year} ${site.short_name} · Last updated ${site.last_updated}`;
+        // re-apply instagram link after footer is rendered
+        fetch('data/links.json')
+          .then(r => r.json())
+          .then(links => {
+            document.getElementById('link-instagram-footer').href = links.instagram;
+          });
+      });
+
     // Load events from data/events.json
     fetch('data/events.json')
       .then(r => r.json())
