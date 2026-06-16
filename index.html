@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HKSA - Hong Kong Student Association at Stanford</title>
+  <title>Stanford HKSA</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     :root {
@@ -249,10 +250,17 @@
       font-weight: 600;
       letter-spacing: 0.04em;
       transition: background 0.2s, color 0.2s;
+      min-width: 160px;
+      text-align: center;
     }
 
     .join-cta:hover { background: var(--white); color: var(--black); }
     .join-buttons { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+    .join-buttons .join-cta { flex: 1 0 auto; max-width: 200px; }
+    @media (max-width: 600px) {
+      .join-buttons { flex-direction: column; align-items: center; }
+      .join-cta { width: 240px; }
+    }
 
     /* FOOTER */
     footer {
@@ -305,8 +313,8 @@
       <div class="hero-bar"></div>
       <div class="hero-text">
         <h1>Hong Kong Student Association at <em>Stanford.</em></h1>
-        <p>A home away from home for Hong Kong students, friends, and anyone who loves the culture.</p>
-        <a href="#join" class="hero-cta">Join Us</a>
+        <p>A home away from home for Hong Kong students, friends, and anyone who enjoys our culture.</p>
+        <a href="#join" class="hero-cta">Get Involved</a>
       </div>
     </div>
   </div>
@@ -331,62 +339,72 @@
       <div class="card">
         <div class="card-tag">Social</div>
         <h3>New Member Welcome</h3>
-        <p>Kick off the year by meeting fellow HKSA members and getting a taste of what we do.</p>
+        <p>Kick off the year by meeting fellow HKSA members, learning about what we do, and finding your community at Stanford.</p>
+      </div>
+      <div class="card">
+        <div class="card-tag">Social</div>
+        <h3>Open Quarter Rice</h3>
+        <p>A shared meal at the start of each quarter to welcome new faces, reconnect with old friends, and begin the term together as a community.</p>
       </div>
       <div class="card">
         <div class="card-tag">Social</div>
         <h3>Food &amp; Gather</h3>
-        <p>Regular on-campus hangouts with HK food, mahjong, and karaoke. The heart of HKSA.</p>
+        <p>Casual on-campus hangouts with Hong Kong food, mahjong, karaoke, and plenty of time to catch up with friends.</p>
       </div>
       <div class="card">
         <div class="card-tag">Social</div>
         <h3>Mahjong Night</h3>
-        <p>Gather round the table for a classic game night, Hong Kong style.</p>
+        <p>More than just a game, mahjong has long been a staple of social life in Hong Kong. Join us for an evening of strategy, laughter, and friendly competition.</p>
       </div>
       <div class="card">
         <div class="card-tag">Social</div>
         <h3>Karaoke Night</h3>
-        <p>Cantopop, Mandopop, or whatever you feel. A night of singing and good vibes.</p>
+        <p>From Cantopop classics to the latest hits, gather for a night of music, laughter, and singing with friends.</p>
+      </div>
+      <div class="card">
+        <div class="card-tag">Social</div>
+        <h3>Movie Night</h3>
+        <p>Enjoy Cantonese films with fellow members and discover the stories, humor, and nostalgia that resonate with generations of Hongkongers.</p>
       </div>
       <div class="card">
         <div class="card-tag">Cultural</div>
         <h3>Winter Solstice</h3>
-        <p>Celebrating the winter solstice together, a cherished tradition in Hong Kong culture.</p>
-      </div>
-      <div class="card">
-        <div class="card-tag">Social</div>
-        <h3>CNY Hotpot</h3>
-        <p>A casual hotpot gathering to ring in the Chinese New Year with good food and good company.</p>
+        <p>Celebrated widely in Hong Kong, the Winter Solstice is a time for reunion and togetherness. Join us as we mark the occasion with food and community.</p>
       </div>
       <div class="card">
         <div class="card-tag">Cultural</div>
         <h3>Chinese New Year</h3>
-        <p>Celebrating the new year together with calligraphy, traditional food tasting, and good company.</p>
-      </div>
-      <div class="card">
-        <div class="card-tag">Food</div>
-        <h3>Dim Sum Run</h3>
-        <p>Group trips to the best dim sum spots around the Bay Area.</p>
+        <p>Celebrate the start of the new year with fai chun calligraphy, festive treats, and traditional customs as we share one of Hong Kong&rsquo;s most cherished celebrations.</p>
       </div>
       <div class="card">
         <div class="card-tag">Social</div>
-        <h3>Hongkonger in Bay Area</h3>
-        <p>A chance to meet Hong Kong people living and working in the Bay Area, great for networking and community.</p>
+        <h3>Chinese New Year Hotpot</h3>
+        <p>Gather around the hotpot table to celebrate the beginning of a new year with students and alumni, sharing good food and good company.</p>
+      </div>
+      <div class="card">
+        <div class="card-tag">Social</div>
+        <h3>Dim Sum Run</h3>
+        <p>Explore some of the Bay Area&rsquo;s best dim sum restaurants and experience one of Hong Kong&rsquo;s most beloved dining traditions.</p>
+      </div>
+      <div class="card">
+        <div class="card-tag">Social</div>
+        <h3>Hongkongers in the Bay Area</h3>
+        <p>Connect with Hong Kong professionals and alumni across a range of industries, fostering mentorship and cultural connections across generations.</p>
       </div>
       <div class="card">
         <div class="card-tag">Social</div>
         <h3>Berkeley Mixer</h3>
-        <p>Connecting with Hong Kong students across the bay at UC Berkeley.</p>
+        <p>Strengthen ties with fellow Hong Kong students across the Bay Area and celebrate our shared culture.</p>
       </div>
       <div class="card">
         <div class="card-tag">Annual</div>
         <h3>Spring Retreat</h3>
-        <p>An off-campus getaway to unwind, bond, and close out the year together.</p>
+        <p>An off-campus getaway to relax, explore, and create lasting memories as we celebrate another year together.</p>
       </div>
       <div class="card">
         <div class="card-tag">Annual</div>
         <h3>Year-End Celebration</h3>
-        <p>Hotpot and karaoke to close out the year with the full HKSA family.</p>
+        <p>Close out the academic year with hotpot, karaoke, and a chance to celebrate our graduating members and reconnect with alumni.</p>
       </div>
     </div>
   </section>
@@ -429,16 +447,15 @@
     <p>Sign up on CardinalEngage to become a member, or join our mailing list and follow us on Instagram to stay in the loop.</p>
     <div class="join-buttons">
       <a href="https://cardinalengage.stanford.edu" class="join-cta" target="_blank">CardinalEngage</a>
+      <a href="https://mailman.stanford.edu/mailman/listinfo/hksa" class="join-cta" target="_blank">Mailing List</a>
       <a href="https://www.instagram.com/stanfordhksa" class="join-cta" target="_blank">Instagram</a>
-      <a href="mailto:hksa-subscribe@lists.stanford.edu" class="join-cta">Mailing List</a>
     </div>
   </div>
 
   <!-- FOOTER -->
   <footer id="contact">
-    <p>Hong Kong Student Association &middot; Stanford University</p>
+    <p>&copy; 2026&ndash;2027 Stanford Hong Kong Student Association &middot; Last updated June 2026</p>
     <p style="margin-top: 0.4rem;">Affiliated with: <a href="https://a3c.stanford.edu/" target="_blank">A3C</a> &middot; <a href="https://stanfordaasa.weebly.com/" target="_blank">AASA</a> &middot; <a href="https://sites.google.com/stanford.edu/aagsa/" target="_blank">AAGSA</a> &middot; <a href="https://taiwanese.stanford.edu/" target="_blank">TCS</a> &middot; MSA</p>
-    <p style="margin-top: 0.4rem;">&copy; 2026&ndash;2027 Stanford HKSA &middot; Last updated June 2026</p>
   </footer>
 
 </body>
