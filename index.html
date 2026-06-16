@@ -5,7 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HKSA - Hong Kong Student Association at Stanford</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="variables.css" />
+  <style>
+    :root {
+      --red:          #B1040E;
+      --black:        #2E2D29;
+      --bg:           #F5F5F0;
+      --white:        #FFFFFF;
+      --grey:         #53565A;
+      --border:       #D5D5D4;
+      --font-display: 'Playfair Display', serif;
+      --font-body:    'Inter', sans-serif;
+    }
+  </style>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -68,11 +79,28 @@
       display: flex;
       align-items: center;
       padding: 80px 2rem 4rem;
-      max-width: 1100px;
-      margin: 0 auto;
+      max-width: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url('assets/hero.jpg');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.15;
+      z-index: 0;
     }
 
     .hero-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      width: 100%;
       display: flex;
       align-items: flex-start;
       gap: 3rem;
@@ -164,7 +192,7 @@
     /* CARDS (shared by events and people) */
     .card-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 1.5rem;
       margin-top: 2.5rem;
     }
@@ -207,7 +235,7 @@
       text-align: center;
     }
 
-    .join-block .section-label { color: var(--red); }
+    .join-block .section-label { color: #E50808; }
     .join-block .section-title { color: var(--white); margin-bottom: 1rem; }
     .join-block p { color: var(--border); margin-bottom: 2rem; font-size: 1rem; }
 
@@ -243,8 +271,19 @@
       .nav-links { display: none; }
       .hero-inner { flex-direction: column; gap: 1.5rem; }
       .hero-bar { width: 40px; height: 5px; }
+      .card-grid { grid-template-columns: 1fr; }
     }
   </style>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TLH5792XHT"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-TLH5792XHT');
+  </script>
 </head>
 <body>
 
@@ -265,9 +304,9 @@
     <div class="hero-inner">
       <div class="hero-bar"></div>
       <div class="hero-text">
-        <h1>Hong Kong<br/>at <em>Stanford.</em></h1>
-        <p>A home away from home for Hong Kong students, friends, and anyone who loves the culture. We gather, celebrate, and look out for each other.</p>
-        <a href="#join" class="hero-cta">Get Involved</a>
+        <h1>Hong Kong Student Association at <em>Stanford.</em></h1>
+        <p>A home away from home for Hong Kong students, friends, and anyone who loves the culture.</p>
+        <a href="#join" class="hero-cta">Join Us</a>
       </div>
     </div>
   </div>
@@ -277,28 +316,108 @@
   <!-- ABOUT -->
   <section id="about">
     <div class="section-label">Who We Are</div>
-    <h2 class="section-title">More than a student org.</h2>
-    <p class="section-body">HKSA is Stanford's community for students connected to Hong Kong - whether you grew up there, have family there, or simply share an affinity for its food, language, and spirit. We run social events, cultural celebrations, and off-campus adventures throughout the year.</p>
+    <h2 class="section-title">A Hong Kong community at Stanford.</h2>
+    <p class="section-body">We are a group of undergraduate and graduate students dedicated to preserving and promoting Hong Kong culture at Stanford, and connecting students passionate about the culture.</p>
   </section>
 
   <hr class="divider" />
 
-  <!-- EVENTS - loaded from data/events.json -->
+  <!-- EVENTS -->
   <section id="events">
     <div class="section-label">What We Do</div>
     <h2 class="section-title">Events throughout the year.</h2>
-    <p class="section-body">From weekly gatherings to multi-day retreats, there is always something on.</p>
-    <div class="card-grid" id="events-grid"></div>
+    <p class="section-body">From food events and mahjong nights to karaoke and movie screenings, we bring Hong Kong culture to life on campus. There's always something on.</p>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-tag">Social</div>
+        <h3>New Member Welcome</h3>
+        <p>Kick off the year by meeting fellow HKSA members and getting a taste of what we do.</p>
+      </div>
+      <div class="card">
+        <div class="card-tag">Social</div>
+        <h3>Food &amp; Gather</h3>
+        <p>Regular on-campus hangouts with HK food, mahjong, and karaoke. The heart of HKSA.</p>
+      </div>
+      <div class="card">
+        <div class="card-tag">Social</div>
+        <h3>Mahjong Night</h3>
+        <p>Gather round the table for a classic game night, Hong Kong style.</p>
+      </div>
+      <div class="card">
+        <div class="card-tag">Social</div>
+        <h3>Karaoke Night</h3>
+        <p>Cantopop, Mandopop, or whatever you feel. A night of singing and good vibes.</p>
+      </div>
+      <div class="card">
+        <div class="card-tag">Cultural</div>
+        <h3>Winter Solstice</h3>
+        <p>Celebrating the winter solstice together, a cherished tradition in Hong Kong culture.</p>
+      </div>
+      <div class="card">
+        <div class="card-tag">Social</div>
+        <h3>CNY Hotpot</h3>
+        <p>A casual hotpot gathering to ring in the Chinese New Year with good food and good company.</p>
+      </div>
+      <div class="card">
+        <div class="card-tag">Cultural</div>
+        <h3>Chinese New Year</h3>
+        <p>Celebrating the new year together with calligraphy, traditional food tasting, and good company.</p>
+      </div>
+      <div class="card">
+        <div class="card-tag">Food</div>
+        <h3>Dim Sum Run</h3>
+        <p>Group trips to the best dim sum spots around the Bay Area.</p>
+      </div>
+      <div class="card">
+        <div class="card-tag">Social</div>
+        <h3>Hongkonger in Bay Area</h3>
+        <p>A chance to meet Hong Kong people living and working in the Bay Area, great for networking and community.</p>
+      </div>
+      <div class="card">
+        <div class="card-tag">Social</div>
+        <h3>Berkeley Mixer</h3>
+        <p>Connecting with Hong Kong students across the bay at UC Berkeley.</p>
+      </div>
+      <div class="card">
+        <div class="card-tag">Annual</div>
+        <h3>Spring Retreat</h3>
+        <p>An off-campus getaway to unwind, bond, and close out the year together.</p>
+      </div>
+      <div class="card">
+        <div class="card-tag">Annual</div>
+        <h3>Year-End Celebration</h3>
+        <p>Hotpot and karaoke to close out the year with the full HKSA family.</p>
+      </div>
+    </div>
   </section>
 
   <hr class="divider" />
 
-  <!-- PEOPLE - loaded from data/people.json -->
+  <!-- PEOPLE -->
   <section id="people">
     <div class="section-label">Our Team</div>
     <h2 class="section-title">Student leaders.</h2>
     <p class="section-body">Meet the officers running HKSA this year.</p>
-    <div class="card-grid" id="people-grid"></div>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-tag">President</div>
+        <h3>Heison Leong</h3>
+        <p>Bio placeholder.</p>
+        <p><a href="mailto:epicmark@stanford.edu" style="color:var(--red);font-size:0.85rem;">epicmark@stanford.edu</a></p>
+      </div>
+      <div class="card">
+        <div class="card-tag">Vice President</div>
+        <h3>Chun Hei Tai</h3>
+        <p>Bio placeholder.</p>
+        <p><a href="mailto:tchtai@stanford.edu" style="color:var(--red);font-size:0.85rem;">tchtai@stanford.edu</a></p>
+      </div>
+      <div class="card">
+        <div class="card-tag">Financial Officer</div>
+        <h3>Hanson Ho</h3>
+        <p>Bio placeholder.</p>
+        <p><a href="mailto:hohanson@stanford.edu" style="color:var(--red);font-size:0.85rem;">hohanson@stanford.edu</a></p>
+      </div>
+    </div>
   </section>
 
   <hr class="divider" />
@@ -306,70 +425,21 @@
   <!-- JOIN -->
   <div class="join-block" id="join">
     <div class="section-label">Join Us</div>
-    <h2 class="section-title">Find your people.</h2>
-    <p>Sign up on CardinalEngage to become an official member, follow us on Instagram, or join our mailing list to stay in the loop.</p>
+    <h2 class="section-title">Get Involved.</h2>
+    <p>Sign up on CardinalEngage to become a member, or join our mailing list and follow us on Instagram to stay in the loop.</p>
     <div class="join-buttons">
-      <a id="link-cardinalengage" href="#" class="join-cta" target="_blank">CardinalEngage</a>
-      <a id="link-instagram" href="#" class="join-cta" target="_blank">Instagram</a>
-      <a id="link-mailing-list" href="#" class="join-cta">Mailing List</a>
+      <a href="https://cardinalengage.stanford.edu" class="join-cta" target="_blank">CardinalEngage</a>
+      <a href="https://www.instagram.com/stanfordhksa" class="join-cta" target="_blank">Instagram</a>
+      <a href="mailto:hksa-subscribe@lists.stanford.edu" class="join-cta">Mailing List</a>
     </div>
   </div>
 
   <!-- FOOTER -->
   <footer id="contact">
-    <p id="footer-line1"></p>
-    <p id="footer-line2" style="margin-top: 0.4rem;"></p>
+    <p>Hong Kong Student Association &middot; Stanford University</p>
+    <p style="margin-top: 0.4rem;">Affiliated with: <a href="https://a3c.stanford.edu/" target="_blank">A3C</a> &middot; <a href="https://stanfordaasa.weebly.com/" target="_blank">AASA</a> &middot; <a href="https://sites.google.com/stanford.edu/aagsa/" target="_blank">AAGSA</a> &middot; <a href="https://taiwanese.stanford.edu/" target="_blank">TCS</a> &middot; MSA</p>
+    <p style="margin-top: 0.4rem;">&copy; 2026&ndash;2027 Stanford HKSA &middot; Last updated June 2026</p>
   </footer>
-
-  <script>
-    // Load site metadata from data/site.json
-    fetch('data/site.json')
-      .then(r => r.json())
-      .then(site => {
-        document.getElementById('footer-line1').textContent =
-          `${site.org_name} · ${site.university}`;
-        document.getElementById('footer-line2').textContent =
-          `© ${site.academic_year} ${site.short_name} · Last updated ${site.last_updated}`;
-      });
-
-    // Load events from data/events.json
-    fetch('data/events.json')
-      .then(r => r.json())
-      .then(events => {
-        const grid = document.getElementById('events-grid');
-        grid.innerHTML = events.map(e => `
-          <div class="card">
-            <div class="card-tag">${e.tag}</div>
-            <h3>${e.name}</h3>
-            <p>${e.description}</p>
-          </div>
-        `).join('');
-      });
-
-    // Load people from data/people.json
-    fetch('data/people.json')
-      .then(r => r.json())
-      .then(people => {
-        const grid = document.getElementById('people-grid');
-        grid.innerHTML = people.map(p => `
-          <div class="card">
-            <div class="card-tag">${p.role}</div>
-            <h3>${p.name}</h3>
-            <p>${p.bio}</p>
-            ${p.email ? `<p><a href="mailto:${p.email}" style="color:var(--red);font-size:0.85rem;">${p.email}</a></p>` : ''}
-          </div>
-        `).join('');
-      });
-
-    // Load links from data/links.json
-    fetch('data/links.json')
-      .then(r => r.json())
-      .then(links => {
-        document.getElementById('link-cardinalengage').href = links.cardinalengage;
-        document.getElementById('link-instagram').href = links.instagram;
-        document.getElementById('link-mailing-list').href = links.mailing_list;
-      });
-  </script>
 
 </body>
 </html>
