@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Stanford HKSA</title>
   <link rel="icon" type="image/png" href="assets/favicon.png" />
+  <meta property="og:image" content="assets/og-image.jpg" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     :root {
@@ -17,8 +18,7 @@
       --font-display: 'Playfair Display', serif;
       --font-body:    'Inter', sans-serif;
     }
-  </style>
-  <style>
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     html { scroll-behavior: smooth; }
@@ -203,6 +203,7 @@
       padding: 1.8rem;
       border: 1px solid var(--border);
       transition: border-color 0.2s;
+      min-width: 0;
     }
 
     .card:hover { border-color: var(--red); }
@@ -227,6 +228,82 @@
       font-size: 0.88rem;
       color: var(--grey);
       line-height: 1.7;
+    }
+
+    /* OFFICER PHOTO */
+    .officer-photo {
+      width: 100%;
+      height: auto;
+      display: block;
+      margin-bottom: 1.2rem;
+      background: var(--bg);
+    }
+
+    /* PAST OFFICERS TOGGLE */
+    .past-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1.8rem;
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--grey);
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      padding: 0.55rem 1.2rem;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .past-toggle:hover { border-color: var(--red); color: var(--red); }
+
+    .past-toggle .toggle-chevron {
+      display: inline-block;
+      transition: transform 0.25s;
+      font-style: normal;
+      font-size: 0.75rem;
+    }
+
+    .past-toggle.open .toggle-chevron { transform: rotate(180deg); }
+
+    .past-officers {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.35s ease;
+    }
+
+    .past-officers.open { max-height: 2000px; }
+
+    .past-year-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--grey);
+      margin: 2rem 0 1rem;
+    }
+
+    .exec-row {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      margin-top: 1rem;
+      padding-top: 0.8rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .exec-names {
+      font-size: 0.88rem;
+      color: var(--grey);
+    }
+
+    .exec-row .card-tag {
+      flex-shrink: 0;
+      width: 120px;
+      min-width: 120px;
+      margin-bottom: 0;
     }
 
     /* JOIN */
@@ -257,10 +334,6 @@
     .join-cta:hover { background: var(--white); color: var(--black); }
     .join-buttons { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
     .join-buttons .join-cta { flex: 1 0 auto; max-width: 200px; }
-    @media (max-width: 600px) {
-      .join-buttons { flex-direction: column; align-items: center; }
-      .join-cta { width: 240px; }
-    }
 
     /* FOOTER */
     footer {
@@ -274,12 +347,133 @@
     footer a { color: var(--border); text-decoration: none; transition: color 0.2s; }
     footer a:hover { color: var(--red); }
 
-    /* RESPONSIVE */
+    /* EVENTS CAROUSEL - desktop */
+    .carousel-wrap {
+      position: relative;
+      margin-top: 2.5rem;
+    }
+
+    .carousel-arr {
+      /* --- easy to restyle: change width/height/border-radius/color here --- */
+      width: 36px;
+      height: 36px;
+      border-radius: 0;
+      border: 1px solid var(--border);
+      background: var(--white);
+      color: var(--black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: border-color 0.2s, color 0.2s;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .carousel-arr:hover { border-color: var(--red); color: var(--red); }
+    .carousel-arr[hidden] { display: none; }
+
+    #evtPrev { left: -52px; }
+    #evtNext { right: -52px; }
+
+    .carousel-viewport {
+      width: 100%;
+      overflow: hidden;
+    }
+
+    /* --- easy to change layout: adjust grid-template here --- */
+    .carousel-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, auto);
+      gap: 1.5rem;
+    }
+
+    .evt-expand-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--grey);
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      padding: 0.55rem 1.2rem;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .evt-expand-btn:hover { border-color: var(--red); color: var(--red); }
+
+    .card-ghost {
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    /* PAGE INDICATOR DOTS */
+    .carousel-dots {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    .carousel-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--border);
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .carousel-dot.active { background: var(--red); }
+
+    /* ACTIVE NAV HIGHLIGHT */
+    .nav-links a.nav-active { color: var(--red); }
+
+    /* RESPONSIVE - all mobile rules consolidated here */
     @media (max-width: 600px) {
       .nav-links { display: none; }
       .hero-inner { flex-direction: column; gap: 1.5rem; }
       .hero-bar { width: 40px; height: 5px; }
       .card-grid { grid-template-columns: 1fr; }
+      .evt-expand-btn { display: none; }
+      .carousel-dots { display: none; }
+      .join-buttons { flex-direction: column; align-items: center; }
+      .join-cta { width: 240px; }
+      .carousel-wrap { gap: 0; }
+      .carousel-arr { display: none; }
+      .carousel-viewport {
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .carousel-viewport::-webkit-scrollbar { display: none; }
+      .carousel-grid {
+        display: grid;
+        grid-auto-flow: column;
+        grid-template-rows: repeat(3, auto);
+        grid-template-columns: unset;
+        width: max-content;
+        gap: 1rem;
+      }
+      .carousel-grid .card {
+        width: 75vw;
+        scroll-snap-align: start;
+      }
+      .exec-row .card-tag {
+        width: 80px;
+        min-width: 80px;
+      }
     }
   </style>
 
@@ -335,78 +529,90 @@
     <div class="section-label">What We Do</div>
     <h2 class="section-title">Events throughout the year.</h2>
     <p class="section-body">From food events and mahjong nights to karaoke and movie screenings, we bring Hong Kong culture to life on campus. There's always something on.</p>
-    <div class="card-grid">
-      <div class="card">
-        <div class="card-tag">Annual</div>
-        <h3>New Member Welcome</h3>
-        <p>Kick off the year by meeting fellow HKSA members, learning about what we do, and finding your community at Stanford.</p>
+    <div class="carousel-wrap" id="eventsCarousel">
+      <button class="carousel-arr" id="evtPrev" onclick="evtMove(-1)" aria-label="Previous" hidden>&#8249;</button>
+      <div class="carousel-viewport">
+        <div class="carousel-grid" id="evtGrid">
+          <div class="card">
+            <div class="card-tag">Annual</div>
+            <h3>New Member Welcome</h3>
+            <p>Kick off the year by meeting fellow HKSA members, learning about what we do, and finding your community at Stanford.</p>
+          </div>
+          <div class="card">
+            <div class="card-tag">Social</div>
+            <h3>Open Quarter Rice</h3>
+            <p>A shared meal at the start of each quarter to welcome new faces, reconnect with old friends, and begin the term together as a community.</p>
+          </div>
+          <div class="card">
+            <div class="card-tag">Food</div>
+            <h3>Food &amp; Gather</h3>
+            <p>Casual on-campus hangouts with Hong Kong food, mahjong, karaoke, and plenty of time to catch up with friends.</p>
+          </div>
+          <div class="card">
+            <div class="card-tag">Social</div>
+            <h3>Mahjong Night</h3>
+            <p>More than just a game, mahjong has long been a staple of social life in Hong Kong. Join us for an evening of strategy, laughter, and friendly competition.</p>
+          </div>
+          <div class="card">
+            <div class="card-tag">Social</div>
+            <h3>Karaoke Night</h3>
+            <p>From Cantopop classics to the latest hits, gather for a night of music, laughter, and singing with friends.</p>
+          </div>
+          <div class="card">
+            <div class="card-tag">Social</div>
+            <h3>Movie Night</h3>
+            <p>Enjoy Cantonese films with fellow members and discover the stories, humor, and nostalgia that resonate with generations of Hongkongers.</p>
+          </div>
+          <div class="card">
+            <div class="card-tag">Cultural</div>
+            <h3>Winter Solstice</h3>
+            <p>Celebrated widely in Hong Kong, the Winter Solstice is a time for reunion and togetherness. Join us as we mark the occasion with food and community.</p>
+          </div>
+          <div class="card">
+            <div class="card-tag">Cultural</div>
+            <h3>Chinese New Year</h3>
+            <p>Celebrate the start of the new year with fai chun calligraphy, festive treats, and traditional customs as we share one of Hong Kong&rsquo;s most cherished celebrations.</p>
+          </div>
+          <div class="card">
+            <div class="card-tag">Annual</div>
+            <h3>Chinese New Year Hotpot</h3>
+            <p>Gather around the hotpot table to celebrate the beginning of a new year with students and alumni, sharing good food and good company.</p>
+          </div>
+          <div class="card">
+            <div class="card-tag">Food</div>
+            <h3>Dim Sum Run</h3>
+            <p>Explore some of the Bay Area&rsquo;s best dim sum restaurants and experience one of Hong Kong&rsquo;s most beloved dining traditions.</p>
+          </div>
+          <div class="card">
+            <div class="card-tag">Social</div>
+            <h3>Hongkongers in the Bay Area</h3>
+            <p>Connect with Hong Kong professionals and alumni across a range of industries, fostering mentorship and cultural connections across generations.</p>
+          </div>
+          <div class="card">
+            <div class="card-tag">Social</div>
+            <h3>Berkeley Mixer</h3>
+            <p>Strengthen ties with fellow Hong Kong students across the Bay Area and celebrate our shared culture.</p>
+          </div>
+          <div class="card">
+            <div class="card-tag">Annual</div>
+            <h3>Spring Retreat</h3>
+            <p>An off-campus getaway to relax, explore, and create lasting memories as we celebrate another year together.</p>
+          </div>
+          <div class="card">
+            <div class="card-tag">Annual</div>
+            <h3>Year-End Celebration</h3>
+            <p>Close out the academic year with hotpot, karaoke, and a chance to celebrate our graduating members and reconnect with alumni.</p>
+          </div>
+          <div class="card card-ghost" aria-hidden="true"></div>
+          <div class="card card-ghost" aria-hidden="true"></div>
+          <div class="card card-ghost" aria-hidden="true"></div>
+          <div class="card card-ghost" aria-hidden="true"></div>
+        </div>
       </div>
-      <div class="card">
-        <div class="card-tag">Social</div>
-        <h3>Open Quarter Rice</h3>
-        <p>A shared meal at the start of each quarter to welcome new faces, reconnect with old friends, and begin the term together as a community.</p>
-      </div>
-      <div class="card">
-        <div class="card-tag">Food</div>
-        <h3>Food &amp; Gather</h3>
-        <p>Casual on-campus hangouts with Hong Kong food, mahjong, karaoke, and plenty of time to catch up with friends.</p>
-      </div>
-      <div class="card">
-        <div class="card-tag">Social</div>
-        <h3>Mahjong Night</h3>
-        <p>More than just a game, mahjong has long been a staple of social life in Hong Kong. Join us for an evening of strategy, laughter, and friendly competition.</p>
-      </div>
-      <div class="card">
-        <div class="card-tag">Social</div>
-        <h3>Karaoke Night</h3>
-        <p>From Cantopop classics to the latest hits, gather for a night of music, laughter, and singing with friends.</p>
-      </div>
-      <div class="card">
-        <div class="card-tag">Social</div>
-        <h3>Movie Night</h3>
-        <p>Enjoy Cantonese films with fellow members and discover the stories, humor, and nostalgia that resonate with generations of Hongkongers.</p>
-      </div>
-      <div class="card">
-        <div class="card-tag">Cultural</div>
-        <h3>Winter Solstice</h3>
-        <p>Celebrated widely in Hong Kong, the Winter Solstice is a time for reunion and togetherness. Join us as we mark the occasion with food and community.</p>
-      </div>
-      <div class="card">
-        <div class="card-tag">Cultural</div>
-        <h3>Chinese New Year</h3>
-        <p>Celebrate the start of the new year with fai chun calligraphy, festive treats, and traditional customs as we share one of Hong Kong&rsquo;s most cherished celebrations.</p>
-      </div>
-      <div class="card">
-        <div class="card-tag">Annual</div>
-        <h3>Chinese New Year Hotpot</h3>
-        <p>Gather around the hotpot table to celebrate the beginning of a new year with students and alumni, sharing good food and good company.</p>
-      </div>
-      <div class="card">
-        <div class="card-tag">Food</div>
-        <h3>Dim Sum Run</h3>
-        <p>Explore some of the Bay Area&rsquo;s best dim sum restaurants and experience one of Hong Kong&rsquo;s most beloved dining traditions.</p>
-      </div>
-      <div class="card">
-        <div class="card-tag">Social</div>
-        <h3>Hongkongers in the Bay Area</h3>
-        <p>Connect with Hong Kong professionals and alumni across a range of industries, fostering mentorship and cultural connections across generations.</p>
-      </div>
-      <div class="card">
-        <div class="card-tag">Social</div>
-        <h3>Berkeley Mixer</h3>
-        <p>Strengthen ties with fellow Hong Kong students across the Bay Area and celebrate our shared culture.</p>
-      </div>
-      <div class="card">
-        <div class="card-tag">Annual</div>
-        <h3>Spring Retreat</h3>
-        <p>An off-campus getaway to relax, explore, and create lasting memories as we celebrate another year together.</p>
-      </div>
-      <div class="card">
-        <div class="card-tag">Annual</div>
-        <h3>Year-End Celebration</h3>
-        <p>Close out the academic year with hotpot, karaoke, and a chance to celebrate our graduating members and reconnect with alumni.</p>
-      </div>
+      <button class="carousel-arr" id="evtNext" onclick="evtMove(1)" aria-label="Next">&#8250;</button>
     </div>
+    <div class="carousel-dots" id="evtDots"></div>
+    <button class="evt-expand-btn" id="evtExpandBtn" onclick="evtToggleExpand()">Show all events &#9660;</button>
   </section>
 
   <hr class="divider" />
@@ -418,23 +624,109 @@
     <p class="section-body">Meet the officers running HKSA this year.</p>
     <div class="card-grid">
       <div class="card">
+        <img src="assets/headshot-epicmark.png" alt="Heison Leong" class="officer-photo" width="250" height="250" />
         <div class="card-tag">President</div>
         <h3>Heison Leong</h3>
         <p>Bio placeholder.</p>
         <p><a href="mailto:epicmark@stanford.edu" style="color:var(--red);font-size:0.85rem;">epicmark@stanford.edu</a></p>
       </div>
       <div class="card">
+        <img src="assets/headshot-tchtai.png" alt="Chun Hei Tai" class="officer-photo" width="250" height="250" />
         <div class="card-tag">Vice President</div>
         <h3>Chun Hei Tai</h3>
         <p>Bio placeholder.</p>
         <p><a href="mailto:tchtai@stanford.edu" style="color:var(--red);font-size:0.85rem;">tchtai@stanford.edu</a></p>
       </div>
       <div class="card">
+        <img src="assets/headshot-hohanson.png" alt="Hanson Ho" class="officer-photo" width="250" height="250" />
         <div class="card-tag">Financial Officer</div>
         <h3>Hanson Ho</h3>
         <p>Bio placeholder.</p>
         <p><a href="mailto:hohanson@stanford.edu" style="color:var(--red);font-size:0.85rem;">hohanson@stanford.edu</a></p>
       </div>
+    </div>
+
+    <button class="past-toggle" id="pastToggle" onclick="
+      this.classList.toggle('open');
+      document.getElementById('pastOfficers').classList.toggle('open');
+      this.querySelector('.toggle-label').textContent = this.classList.contains('open') ? 'Hide past officers' : 'Show past officers';
+    " aria-expanded="false">
+      <span class="toggle-label">Show past officers</span>
+      <i class="toggle-chevron">&#9660;</i>
+    </button>
+
+    <div class="past-officers" id="pastOfficers">
+
+      <div class="past-year-label">2025&ndash;26</div>
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-tag">President</div>
+          <h3>Clive Chung</h3>
+          <p><a href="mailto:lychung@stanford.edu" style="color:var(--red);font-size:0.85rem;">lychung@stanford.edu</a></p>
+        </div>
+        <div class="card">
+          <div class="card-tag">Vice President</div>
+          <h3>Camille Vong</h3>
+          <p><a href="mailto:csvong@stanford.edu" style="color:var(--red);font-size:0.85rem;">csvong@stanford.edu</a></p>
+        </div>
+        <div class="card">
+          <div class="card-tag">Financial Officer</div>
+          <h3>Hanson Ho</h3>
+          <p><a href="mailto:hohanson@stanford.edu" style="color:var(--red);font-size:0.85rem;">hohanson@stanford.edu</a></p>
+        </div>
+      </div>
+      <div class="exec-row">
+        <span class="card-tag" style="margin-bottom:0;">Executive Team</span>
+        <span class="exec-names">Dominic Cheng &middot; Alana Chiang &middot; Alexis Lee &middot; Heison Leong &middot; Cindy Shum &middot; Rebecca Zhang</span>
+      </div>
+
+      <div class="past-year-label">2024&ndash;25</div>
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-tag">President</div>
+          <h3>Milly Wong</h3>
+          <p><a href="mailto:millywy@stanford.edu" style="color:var(--red);font-size:0.85rem;">millywy@stanford.edu</a></p>
+        </div>
+        <div class="card">
+          <div class="card-tag">Vice President</div>
+          <h3>Erika Yong</h3>
+          <p><a href="mailto:erikay@stanford.edu" style="color:var(--red);font-size:0.85rem;">erikay@stanford.edu</a></p>
+        </div>
+        <div class="card">
+          <div class="card-tag">Financial Officer</div>
+          <h3>Hanson Ho</h3>
+          <p><a href="mailto:hohanson@stanford.edu" style="color:var(--red);font-size:0.85rem;">hohanson@stanford.edu</a></p>
+        </div>
+      </div>
+      <div class="exec-row">
+        <span class="card-tag" style="margin-bottom:0;">Executive Team</span>
+        <span class="exec-names">Clive Chung &middot; Edward Tang &middot; Gordon Yeung &middot; Chinat Yu</span>
+      </div>
+
+      <div class="past-year-label">2023&ndash;24</div>
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-tag">Co-President</div>
+          <h3>Carson Chan</h3>
+          <p><a href="mailto:carsonok@stanford.edu" style="color:var(--red);font-size:0.85rem;">carsonok@stanford.edu</a></p>
+          <p><a href="mailto:c.chan@alumni.stanford.edu" style="color:var(--red);font-size:0.85rem;">c.chan@alumni.stanford.edu</a></p>
+        </div>
+        <div class="card">
+          <div class="card-tag">Co-President</div>
+          <h3>Jessie Kong</h3>
+          <p><a href="mailto:jkong2@stanford.edu" style="color:var(--red);font-size:0.85rem;">jkong2@stanford.edu</a></p>
+        </div>
+        <div class="card">
+          <div class="card-tag">Financial Officer</div>
+          <h3>Erika Yong</h3>
+          <p><a href="mailto:erikay@stanford.edu" style="color:var(--red);font-size:0.85rem;">erikay@stanford.edu</a></p>
+        </div>
+      </div>
+      <div class="exec-row">
+        <span class="card-tag" style="margin-bottom:0;">Executive Team</span>
+        <span class="exec-names">Hanson Ho &middot; Milly Wong</span>
+      </div>
+
     </div>
   </section>
 
@@ -446,17 +738,142 @@
     <h2 class="section-title">Get Involved.</h2>
     <p>Sign up on CardinalEngage to become an official member, and join our mailing list and follow us on Instagram to get the latest updates.</p>
     <div class="join-buttons">
-      <a href="https://cardinalengage.stanford.edu" class="join-cta" target="_blank">CardinalEngage</a>
-      <a href="https://mailman.stanford.edu/mailman/listinfo/hksa" class="join-cta" target="_blank">Mailing List</a>
-      <a href="https://www.instagram.com/stanfordhksa" class="join-cta" target="_blank">Instagram</a>
+      <a href="https://cardinalengage.stanford.edu" class="join-cta" target="_blank" rel="noopener noreferrer">CardinalEngage</a>
+      <a href="https://mailman.stanford.edu/mailman/listinfo/hksa" class="join-cta" target="_blank" rel="noopener noreferrer">Mailing List</a>
+      <a href="https://www.instagram.com/stanfordhksa" class="join-cta" target="_blank" rel="noopener noreferrer">Instagram</a>
     </div>
   </div>
 
   <!-- FOOTER -->
   <footer id="contact">
     <p>&copy; 2026&ndash;2027 Stanford Hong Kong Student Association &middot; Last updated June 2026</p>
-    <p style="margin-top: 0.4rem;">Affiliated with: <a href="https://a3c.stanford.edu/" target="_blank">A3C</a> &middot; <a href="https://stanfordaasa.weebly.com/" target="_blank">AASA</a> &middot; <a href="https://sites.google.com/stanford.edu/aagsa/" target="_blank">AAGSA</a> &middot; <a href="https://taiwanese.stanford.edu/" target="_blank">TCS</a> &middot; MSA</p>
+    <p style="margin-top: 0.4rem;">Affiliated with: <a href="https://a3c.stanford.edu/" target="_blank" rel="noopener noreferrer">A3C</a> &middot; <a href="https://stanfordaasa.weebly.com/" target="_blank" rel="noopener noreferrer">AASA</a> &middot; <a href="https://sites.google.com/stanford.edu/aagsa/" target="_blank" rel="noopener noreferrer">AAGSA</a> &middot; <a href="https://taiwanese.stanford.edu/" target="_blank" rel="noopener noreferrer">TCS</a> &middot; MSA</p>
   </footer>
 
+  <script>
+    /* EVENTS CAROUSEL
+       To change grid layout: update PER_PAGE to match cols x rows in .carousel-grid CSS */
+    (function() {
+      var PER_PAGE = 6; /* 3 cols x 2 rows -- change this if you change the grid */
+      var MOBILE_BP = 600; /* must match @media max-width in CSS */
+      var page = 0;
+      var expanded = false;
+      var allCards = document.querySelectorAll('#evtGrid .card');
+      var cards = Array.prototype.filter.call(allCards, function(c) {
+        return !c.classList.contains('card-ghost');
+      });
+      var ghosts = Array.prototype.filter.call(allCards, function(c) {
+        return c.classList.contains('card-ghost');
+      });
+      var total = cards.length;
+      var maxPage = Math.ceil(total / PER_PAGE) - 1;
+      var prev = document.getElementById('evtPrev');
+      var next = document.getElementById('evtNext');
+      var expandBtn = document.getElementById('evtExpandBtn');
+      var dotsContainer = document.getElementById('evtDots');
+
+      /* Build dots */
+      var dots = [];
+      for (var d = 0; d <= maxPage; d++) {
+        var dot = document.createElement('button');
+        dot.className = 'carousel-dot';
+        dot.setAttribute('aria-label', 'Page ' + (d + 1));
+        (function(idx) { dot.onclick = function() { if (!expanded) show(idx); }; })(d);
+        dotsContainer.appendChild(dot);
+        dots.push(dot);
+      }
+
+      function updateDots(p) {
+        dots.forEach(function(dot, i) {
+          dot.classList.toggle('active', i === p);
+        });
+        dotsContainer.style.display = expanded ? 'none' : '';
+      }
+
+      function isMobile() { return window.innerWidth <= MOBILE_BP; }
+
+      function equalizeHeights() {
+        cards.forEach(function(c) { c.style.display = ''; c.style.minHeight = ''; });
+        ghosts.forEach(function(c) { c.style.display = 'none'; });
+        var maxH = 0;
+        cards.forEach(function(c) { var h = c.offsetHeight; if (h > maxH) maxH = h; });
+        cards.forEach(function(c) { c.style.minHeight = maxH + 'px'; });
+        ghosts.forEach(function(c) { c.style.minHeight = maxH + 'px'; });
+      }
+
+      function showAll() {
+        cards.forEach(function(c) { c.style.display = ''; c.style.minHeight = ''; });
+        ghosts.forEach(function(c) { c.style.display = 'none'; });
+        prev.hidden = true;
+        next.hidden = true;
+        dotsContainer.style.display = 'none';
+      }
+
+      function show(p) {
+        page = p;
+        var start = page * PER_PAGE;
+        var end = start + PER_PAGE;
+        cards.forEach(function(c, i) {
+          c.style.display = (i >= start && i < end) ? '' : 'none';
+        });
+        var realOnPage = Math.min(end, total) - start;
+        var ghostsNeeded = PER_PAGE - realOnPage;
+        ghosts.forEach(function(c, i) {
+          c.style.display = (page === maxPage && i < ghostsNeeded) ? '' : 'none';
+        });
+        prev.hidden = (page === 0);
+        next.hidden = (page === maxPage);
+        updateDots(page);
+      }
+
+      function init() {
+        if (isMobile()) {
+          showAll();
+        } else if (expanded) {
+          showAll();
+        } else {
+          equalizeHeights();
+          show(0);
+        }
+      }
+
+      window.evtMove = function(dir) { if (!isMobile() && !expanded) show(page + dir); };
+
+      window.evtToggleExpand = function() {
+        expanded = !expanded;
+        if (expanded) {
+          showAll();
+          expandBtn.innerHTML = 'Show fewer &#9650;';
+        } else {
+          equalizeHeights();
+          show(0);
+          expandBtn.innerHTML = 'Show all events &#9660;';
+        }
+      };
+
+      window.addEventListener('load', init);
+      window.addEventListener('resize', init);
+    })();
+
+    /* ACTIVE NAV HIGHLIGHT via IntersectionObserver */
+    (function() {
+      var sections = document.querySelectorAll('section[id], div[id="join"]');
+      var navLinks = document.querySelectorAll('.nav-links a');
+
+      function setActive(id) {
+        navLinks.forEach(function(a) {
+          a.classList.toggle('nav-active', a.getAttribute('href') === '#' + id);
+        });
+      }
+
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        });
+      }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+
+      sections.forEach(function(s) { observer.observe(s); });
+    })();
+  </script>
 </body>
 </html>
