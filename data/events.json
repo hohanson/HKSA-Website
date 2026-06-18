@@ -1,0 +1,72 @@
+[
+  {
+    "tag": "Annual",
+    "name": "New Member Welcome",
+    "description": "Kick off the year by meeting fellow HKSA members, learning about what we do, and finding your community at Stanford."
+  },
+  {
+    "tag": "Social",
+    "name": "Open Quarter Rice",
+    "description": "A shared meal at the start of each quarter to welcome new faces, reconnect with old friends, and begin the term together as a community."
+  },
+  {
+    "tag": "Food",
+    "name": "Food & Gather",
+    "description": "Casual on-campus hangouts with Hong Kong food, mahjong, karaoke, and plenty of time to catch up with friends."
+  },
+  {
+    "tag": "Social",
+    "name": "Mahjong Night",
+    "description": "More than just a game, mahjong has long been a staple of social life in Hong Kong. Join us for an evening of strategy, laughter, and friendly competition."
+  },
+  {
+    "tag": "Social",
+    "name": "Karaoke Night",
+    "description": "From Cantopop classics to the latest hits, gather for a night of music, laughter, and singing with friends."
+  },
+  {
+    "tag": "Social",
+    "name": "Movie Night",
+    "description": "Enjoy Cantonese films with fellow members and discover the stories, humor, and nostalgia that resonate with generations of Hongkongers."
+  },
+  {
+    "tag": "Cultural",
+    "name": "Winter Solstice",
+    "description": "Celebrated widely in Hong Kong, the Winter Solstice is a time for reunion and togetherness. Join us as we mark the occasion with food and community."
+  },
+  {
+    "tag": "Cultural",
+    "name": "Chinese New Year",
+    "description": "Celebrate the start of the new year with fai chun calligraphy, festive treats, and traditional customs as we share one of Hong Kong's most cherished celebrations."
+  },
+  {
+    "tag": "Annual",
+    "name": "Chinese New Year Hotpot",
+    "description": "Gather around the hotpot table to celebrate the beginning of a new year with students and alumni, sharing good food and good company."
+  },
+  {
+    "tag": "Food",
+    "name": "Dim Sum Run",
+    "description": "Explore some of the Bay Area's best dim sum restaurants and experience one of Hong Kong's most beloved dining traditions."
+  },
+  {
+    "tag": "Social",
+    "name": "Hongkongers in the Bay Area",
+    "description": "Connect with Hong Kong professionals and alumni across a range of industries, fostering mentorship and cultural connections across generations."
+  },
+  {
+    "tag": "Social",
+    "name": "Berkeley Mixer",
+    "description": "Strengthen ties with fellow Hong Kong students across the Bay Area and celebrate our shared culture."
+  },
+  {
+    "tag": "Annual",
+    "name": "Spring Retreat",
+    "description": "An off-campus getaway to relax, explore, and create lasting memories as we celebrate another year together."
+  },
+  {
+    "tag": "Annual",
+    "name": "Year-End Celebration",
+    "description": "Close out the academic year with hotpot, karaoke, and a chance to celebrate our graduating members and reconnect with alumni."
+  }
+]

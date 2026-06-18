@@ -1,0 +1,120 @@
+{
+  "current": {
+    "year": "2026-27",
+    "officers": [
+      {
+        "role": "President",
+        "name": "Heison Leong",
+        "sunet": "epicmark",
+        "email": ["epicmark@stanford.edu"],
+        "headshot": "assets/headshot-epicmark.png",
+        "bio": "Bio placeholder."
+      },
+      {
+        "role": "Vice President",
+        "name": "Chun Hei Tai",
+        "sunet": "tchtai",
+        "email": ["tchtai@stanford.edu"],
+        "headshot": "assets/headshot-tchtai.png",
+        "bio": "Bio placeholder."
+      },
+      {
+        "role": "Financial Officer",
+        "name": "Hanson Ho",
+        "sunet": "hohanson",
+        "email": ["hohanson@stanford.edu"],
+        "headshot": "assets/headshot-hohanson.png",
+        "bio": "Bio placeholder."
+      }
+    ]
+  },
+  "past": [
+    {
+      "year": "2025-26",
+      "officers": [
+        {
+          "role": "President",
+          "name": "Clive Chung",
+          "sunet": "lychung",
+          "email": ["lychung@stanford.edu"]
+        },
+        {
+          "role": "Vice President",
+          "name": "Camille Vong",
+          "sunet": "csvong",
+          "email": ["csvong@stanford.edu"]
+        },
+        {
+          "role": "Financial Officer",
+          "name": "Hanson Ho",
+          "sunet": "hohanson",
+          "email": ["hohanson@stanford.edu"]
+        }
+      ],
+      "exec_team": [
+        "Dominic Cheng",
+        "Alana Chiang",
+        "Alexis Lee",
+        "Heison Leong",
+        "Cindy Shum",
+        "Rebecca Zhang"
+      ]
+    },
+    {
+      "year": "2024-25",
+      "officers": [
+        {
+          "role": "President",
+          "name": "Milly Wong",
+          "sunet": "millywy",
+          "email": ["millywy@stanford.edu"]
+        },
+        {
+          "role": "Vice President",
+          "name": "Erika Yong",
+          "sunet": "erikay",
+          "email": ["erikay@stanford.edu"]
+        },
+        {
+          "role": "Financial Officer",
+          "name": "Hanson Ho",
+          "sunet": "hohanson",
+          "email": ["hohanson@stanford.edu"]
+        }
+      ],
+      "exec_team": [
+        "Clive Chung",
+        "Edward Tang",
+        "Gordon Yeung",
+        "Chinat Yu"
+      ]
+    },
+    {
+      "year": "2023-24",
+      "officers": [
+        {
+          "role": "Co-President",
+          "name": "Carson Chan",
+          "sunet": "carsonok",
+          "email": ["carsonok@stanford.edu", "c.chan@alumni.stanford.edu"]
+        },
+        {
+          "role": "Co-President",
+          "name": "Jessie Kong",
+          "sunet": "jkong2",
+          "email": ["jkong2@stanford.edu"]
+        },
+        {
+          "role": "Financial Officer",
+          "name": "Erika Yong",
+          "sunet": "erikay",
+          "email": ["erikay@stanford.edu"]
+        }
+      ],
+      "exec_team": [
+        "Hanson Ho",
+        "Milly Wong"
+      ]
+    }
+  ]
+}

@@ -534,7 +534,80 @@
       <button class="carousel-arr" id="evtPrev" onclick="evtMove(-1)" aria-label="Previous" hidden>&#8249;</button>
       <div class="carousel-viewport">
         <div class="carousel-grid" id="evtGrid">
-          <!-- populated by loadData() from data/events.json -->
+          <div class="card">
+            <div class="card-tag">Annual</div>
+            <h3>New Member Welcome</h3>
+            <p>Kick off the year by meeting fellow HKSA members, learning about what we do, and finding your community at Stanford.</p>
+          </div>
+          <div class="card">
+            <div class="card-tag">Social</div>
+            <h3>Open Quarter Rice</h3>
+            <p>A shared meal at the start of each quarter to welcome new faces, reconnect with old friends, and begin the term together as a community.</p>
+          </div>
+          <div class="card">
+            <div class="card-tag">Food</div>
+            <h3>Food &amp; Gather</h3>
+            <p>Casual on-campus hangouts with Hong Kong food, mahjong, karaoke, and plenty of time to catch up with friends.</p>
+          </div>
+          <div class="card">
+            <div class="card-tag">Social</div>
+            <h3>Mahjong Night</h3>
+            <p>More than just a game, mahjong has long been a staple of social life in Hong Kong. Join us for an evening of strategy, laughter, and friendly competition.</p>
+          </div>
+          <div class="card">
+            <div class="card-tag">Social</div>
+            <h3>Karaoke Night</h3>
+            <p>From Cantopop classics to the latest hits, gather for a night of music, laughter, and singing with friends.</p>
+          </div>
+          <div class="card">
+            <div class="card-tag">Social</div>
+            <h3>Movie Night</h3>
+            <p>Enjoy Cantonese films with fellow members and discover the stories, humor, and nostalgia that resonate with generations of Hongkongers.</p>
+          </div>
+          <div class="card">
+            <div class="card-tag">Cultural</div>
+            <h3>Winter Solstice</h3>
+            <p>Celebrated widely in Hong Kong, the Winter Solstice is a time for reunion and togetherness. Join us as we mark the occasion with food and community.</p>
+          </div>
+          <div class="card">
+            <div class="card-tag">Cultural</div>
+            <h3>Chinese New Year</h3>
+            <p>Celebrate the start of the new year with fai chun calligraphy, festive treats, and traditional customs as we share one of Hong Kong&rsquo;s most cherished celebrations.</p>
+          </div>
+          <div class="card">
+            <div class="card-tag">Annual</div>
+            <h3>Chinese New Year Hotpot</h3>
+            <p>Gather around the hotpot table to celebrate the beginning of a new year with students and alumni, sharing good food and good company.</p>
+          </div>
+          <div class="card">
+            <div class="card-tag">Food</div>
+            <h3>Dim Sum Run</h3>
+            <p>Explore some of the Bay Area&rsquo;s best dim sum restaurants and experience one of Hong Kong&rsquo;s most beloved dining traditions.</p>
+          </div>
+          <div class="card">
+            <div class="card-tag">Social</div>
+            <h3>Hongkongers in the Bay Area</h3>
+            <p>Connect with Hong Kong professionals and alumni across a range of industries, fostering mentorship and cultural connections across generations.</p>
+          </div>
+          <div class="card">
+            <div class="card-tag">Social</div>
+            <h3>Berkeley Mixer</h3>
+            <p>Strengthen ties with fellow Hong Kong students across the Bay Area and celebrate our shared culture.</p>
+          </div>
+          <div class="card">
+            <div class="card-tag">Annual</div>
+            <h3>Spring Retreat</h3>
+            <p>An off-campus getaway to relax, explore, and create lasting memories as we celebrate another year together.</p>
+          </div>
+          <div class="card">
+            <div class="card-tag">Annual</div>
+            <h3>Year-End Celebration</h3>
+            <p>Close out the academic year with hotpot, karaoke, and a chance to celebrate our graduating members and reconnect with alumni.</p>
+          </div>
+          <div class="card card-ghost" aria-hidden="true"></div>
+          <div class="card card-ghost" aria-hidden="true"></div>
+          <div class="card card-ghost" aria-hidden="true"></div>
+          <div class="card card-ghost" aria-hidden="true"></div>
         </div>
       </div>
       <button class="carousel-arr" id="evtNext" onclick="evtMove(1)" aria-label="Next">&#8250;</button>
@@ -550,8 +623,28 @@
     <div class="section-label">Our Team</div>
     <h2 class="section-title">Student leaders.</h2>
     <p class="section-body">Meet the officers running HKSA this year.</p>
-    <div class="card-grid" id="currentOfficers">
-      <!-- populated by loadData() from data/people.json -->
+    <div class="card-grid">
+      <div class="card">
+        <img src="assets/headshot-epicmark.png" alt="Heison Leong" class="officer-photo" width="250" height="250" />
+        <div class="card-tag">President</div>
+        <h3>Heison Leong</h3>
+        <p>Bio placeholder.</p>
+        <p><a href="mailto:epicmark@stanford.edu" style="color:var(--red);font-size:0.85rem;">epicmark@stanford.edu</a></p>
+      </div>
+      <div class="card">
+        <img src="assets/headshot-tchtai.png" alt="Chun Hei Tai" class="officer-photo" width="250" height="250" />
+        <div class="card-tag">Vice President</div>
+        <h3>Chun Hei Tai</h3>
+        <p>Bio placeholder.</p>
+        <p><a href="mailto:tchtai@stanford.edu" style="color:var(--red);font-size:0.85rem;">tchtai@stanford.edu</a></p>
+      </div>
+      <div class="card">
+        <img src="assets/headshot-hohanson.png" alt="Hanson Ho" class="officer-photo" width="250" height="250" />
+        <div class="card-tag">Financial Officer</div>
+        <h3>Hanson Ho</h3>
+        <p>Bio placeholder.</p>
+        <p><a href="mailto:hohanson@stanford.edu" style="color:var(--red);font-size:0.85rem;">hohanson@stanford.edu</a></p>
+      </div>
     </div>
 
     <button class="past-toggle" id="pastToggle" onclick="
@@ -564,7 +657,77 @@
     </button>
 
     <div class="past-officers" id="pastOfficers">
-      <!-- populated by loadData() from data/people.json -->
+
+      <div class="past-year-label">2025&ndash;26</div>
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-tag">President</div>
+          <h3>Clive Chung</h3>
+          <!-- <p><a href="mailto:lychung@stanford.edu" style="color:var(--red);font-size:0.85rem;">lychung@stanford.edu</a></p> -->
+        </div>
+        <div class="card">
+          <div class="card-tag">Vice President</div>
+          <h3>Camille Vong</h3>
+          <!-- <p><a href="mailto:csvong@stanford.edu" style="color:var(--red);font-size:0.85rem;">csvong@stanford.edu</a></p> -->
+        </div>
+        <div class="card">
+          <div class="card-tag">Financial Officer</div>
+          <h3>Hanson Ho</h3>
+          <!-- <p><a href="mailto:hohanson@stanford.edu" style="color:var(--red);font-size:0.85rem;">hohanson@stanford.edu</a></p> -->
+        </div>
+      </div>
+      <div class="exec-row">
+        <span class="card-tag" style="margin-bottom:0;">Executive Team</span>
+        <span class="exec-names">Dominic Cheng &middot; Alana Chiang &middot; Alexis Lee &middot; Heison Leong &middot; Cindy Shum &middot; Rebecca Zhang</span>
+      </div>
+
+      <div class="past-year-label">2024&ndash;25</div>
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-tag">President</div>
+          <h3>Milly Wong</h3>
+          <!-- <p><a href="mailto:millywy@stanford.edu" style="color:var(--red);font-size:0.85rem;">millywy@stanford.edu</a></p> -->
+        </div>
+        <div class="card">
+          <div class="card-tag">Vice President</div>
+          <h3>Erika Yong</h3>
+          <!-- <p><a href="mailto:erikay@stanford.edu" style="color:var(--red);font-size:0.85rem;">erikay@stanford.edu</a></p> -->
+        </div>
+        <div class="card">
+          <div class="card-tag">Financial Officer</div>
+          <h3>Hanson Ho</h3>
+          <!-- <p><a href="mailto:hohanson@stanford.edu" style="color:var(--red);font-size:0.85rem;">hohanson@stanford.edu</a></p> -->
+        </div>
+      </div>
+      <div class="exec-row">
+        <span class="card-tag" style="margin-bottom:0;">Executive Team</span>
+        <span class="exec-names">Clive Chung &middot; Edward Tang &middot; Gordon Yeung &middot; Chinat Yu</span>
+      </div>
+
+      <div class="past-year-label">2023&ndash;24</div>
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-tag">Co-President</div>
+          <h3>Carson Chan</h3>
+          <!-- <p><a href="mailto:carsonok@stanford.edu" style="color:var(--red);font-size:0.85rem;">carsonok@stanford.edu</a></p> -->
+          <!-- <p><a href="mailto:c.chan@alumni.stanford.edu" style="color:var(--red);font-size:0.85rem;">c.chan@alumni.stanford.edu</a></p> -->
+        </div>
+        <div class="card">
+          <div class="card-tag">Co-President</div>
+          <h3>Jessie Kong</h3>
+          <!-- <p><a href="mailto:jkong2@stanford.edu" style="color:var(--red);font-size:0.85rem;">jkong2@stanford.edu</a></p> -->
+        </div>
+        <div class="card">
+          <div class="card-tag">Financial Officer</div>
+          <h3>Erika Yong</h3>
+          <!-- <p><a href="mailto:erikay@stanford.edu" style="color:var(--red);font-size:0.85rem;">erikay@stanford.edu</a></p> -->
+        </div>
+      </div>
+      <div class="exec-row">
+        <span class="card-tag" style="margin-bottom:0;">Executive Team</span>
+        <span class="exec-names">Hanson Ho &middot; Milly Wong</span>
+      </div>
+
     </div>
   </section>
 
@@ -576,141 +739,19 @@
     <h2 class="section-title">Get Involved.</h2>
     <p>Sign up on CardinalEngage to become an official member, and join our mailing list and follow us on Instagram to get the latest updates.</p>
     <div class="join-buttons">
-      <a href="#" id="linkCardinalEngage" class="join-cta" target="_blank" rel="noopener noreferrer">CardinalEngage</a>
-      <a href="#" id="linkMailingList" class="join-cta" target="_blank" rel="noopener noreferrer">Mailing List</a>
-      <a href="#" id="linkInstagram" class="join-cta" target="_blank" rel="noopener noreferrer">Instagram</a>
+      <a href="https://cardinalengage.stanford.edu" class="join-cta" target="_blank" rel="noopener noreferrer">CardinalEngage</a>
+      <a href="https://mailman.stanford.edu/mailman/listinfo/hksa" class="join-cta" target="_blank" rel="noopener noreferrer">Mailing List</a>
+      <a href="https://www.instagram.com/stanfordhksa" class="join-cta" target="_blank" rel="noopener noreferrer">Instagram</a>
     </div>
   </div>
 
   <!-- FOOTER -->
   <footer id="contact">
     <p>&copy; 2026&ndash;2027 Stanford Hong Kong Student Association &middot; Last updated June 2026</p>
-    <p style="margin-top: 0.4rem;" id="affiliatedLine">
-      <!-- populated by loadData() from data/links.json -->
-    </p>
+    <p style="margin-top: 0.4rem;">Affiliated with: <a href="https://a3c.stanford.edu/" target="_blank" rel="noopener noreferrer">A3C</a> &middot; <a href="https://stanfordaasa.weebly.com/" target="_blank" rel="noopener noreferrer">AASA</a> &middot; <a href="https://sites.google.com/stanford.edu/aagsa/" target="_blank" rel="noopener noreferrer">AAGSA</a> &middot; <a href="https://taiwanese.stanford.edu/" target="_blank" rel="noopener noreferrer">TCS</a> &middot; MSA</p>
   </footer>
 
   <script>
-    /* DATA LOADER
-       Fetches data/events.json, data/people.json, data/links.json and renders all dynamic content.
-       Requires a local server (python -m http.server 8000) -- fetch() does not work via file:// */
-    (function() {
-      var PER_PAGE_EVENTS = 6; /* must match PER_PAGE in carousel IIFE below */
-      var AFFILIATED_LABELS = {
-        a3c:   'A3C',
-        aasa:  'AASA',
-        aagsa: 'AAGSA',
-        tcs:   'TCS',
-        msa:   'MSA'
-      };
-
-      function fetchJSON(path) {
-        return fetch(path).then(function(r) { return r.json(); });
-      }
-
-      function renderEvents(events) {
-        var grid = document.getElementById('evtGrid');
-        var html = '';
-        events.forEach(function(ev) {
-          html += '<div class="card">'
-            + '<div class="card-tag">' + ev.tag + '</div>'
-            + '<h3>' + ev.name + '</h3>'
-            + '<p>' + ev.description + '</p>'
-            + '</div>';
-        });
-        /* ghost cards to pad last page */
-        var rem = events.length % PER_PAGE_EVENTS;
-        var ghosts = rem === 0 ? 0 : PER_PAGE_EVENTS - rem;
-        for (var g = 0; g < ghosts; g++) {
-          html += '<div class="card card-ghost" aria-hidden="true"></div>';
-        }
-        grid.innerHTML = html;
-      }
-
-      function renderCurrentOfficers(current) {
-        var grid = document.getElementById('currentOfficers');
-        var html = '';
-        current.officers.forEach(function(o) {
-          html += '<div class="card">'
-            + '<img src="' + o.headshot + '" alt="' + o.name + '" class="officer-photo" width="250" height="250" />'
-            + '<div class="card-tag">' + o.role + '</div>'
-            + '<h3>' + o.name + '</h3>'
-            + '<p>' + o.bio + '</p>'
-            + '<p><a href="mailto:' + o.email[0] + '" style="color:var(--red);font-size:0.85rem;">' + o.email[0] + '</a></p>'
-            + '</div>';
-        });
-        grid.innerHTML = html;
-      }
-
-      function renderPastOfficers(past) {
-        var container = document.getElementById('pastOfficers');
-        var html = '';
-        past.forEach(function(yr) {
-          var label = yr.year.replace('-', '&ndash;');
-          html += '<div class="past-year-label">' + label + '</div>'
-            + '<div class="card-grid">';
-          yr.officers.forEach(function(o) {
-            html += '<div class="card">'
-              + '<div class="card-tag">' + o.role + '</div>'
-              + '<h3>' + o.name + '</h3>'
-              /* emails deliberately not rendered -- data kept in JSON for future use */
-              + '</div>';
-          });
-          html += '</div>';
-          if (yr.exec_team && yr.exec_team.length) {
-            html += '<div class="exec-row">'
-              + '<span class="card-tag" style="margin-bottom:0;">Executive Team</span>'
-              + '<span class="exec-names">' + yr.exec_team.join(' &middot; ') + '</span>'
-              + '</div>';
-          }
-        });
-        container.innerHTML = html;
-      }
-
-      function renderLinks(links) {
-        /* join buttons */
-        var joinMap = {
-          linkCardinalEngage: links.cardinal_engage,
-          linkMailingList:    links.mailing_list,
-          linkInstagram:      links.instagram
-        };
-        Object.keys(joinMap).forEach(function(id) {
-          var el = document.getElementById(id);
-          if (el && joinMap[id]) el.href = joinMap[id];
-        });
-        /* affiliated orgs footer */
-        var affiliated = document.getElementById('affiliatedLine');
-        if (affiliated) {
-          var parts = Object.keys(AFFILIATED_LABELS).map(function(key) {
-            var label = AFFILIATED_LABELS[key];
-            var url = links[key];
-            return url
-              ? '<a href="' + url + '" target="_blank" rel="noopener noreferrer">' + label + '</a>'
-              : label;
-          });
-          affiliated.innerHTML = 'Affiliated with: ' + parts.join(' &middot; ');
-        }
-      }
-
-      Promise.all([
-        fetchJSON('data/events.json'),
-        fetchJSON('data/people.json'),
-        fetchJSON('data/links.json')
-      ]).then(function(results) {
-        var events = results[0];
-        var people = results[1];
-        var links  = results[2];
-        renderEvents(events);
-        renderCurrentOfficers(people.current);
-        renderPastOfficers(people.past);
-        renderLinks(links);
-        /* re-init carousel after DOM is populated */
-        if (typeof window.evtInit === 'function') window.evtInit();
-      }).catch(function(err) {
-        console.error('loadData failed:', err);
-      });
-    })();
-
     /* EVENTS CAROUSEL
        To change grid layout: update PER_PAGE to match cols x rows in .carousel-grid CSS */
     (function() {
@@ -718,26 +759,29 @@
       var MOBILE_BP = 600; /* must match @media max-width in CSS */
       var page = 0;
       var expanded = false;
-      var cards = [];
-      var ghosts = [];
-      var total = 0;
-      var maxPage = 0;
+      var allCards = document.querySelectorAll('#evtGrid .card');
+      var cards = Array.prototype.filter.call(allCards, function(c) {
+        return !c.classList.contains('card-ghost');
+      });
+      var ghosts = Array.prototype.filter.call(allCards, function(c) {
+        return c.classList.contains('card-ghost');
+      });
+      var total = cards.length;
+      var maxPage = Math.ceil(total / PER_PAGE) - 1;
+      var prev = document.getElementById('evtPrev');
+      var next = document.getElementById('evtNext');
+      var expandBtn = document.getElementById('evtExpandBtn');
+      var dotsContainer = document.getElementById('evtDots');
+
+      /* Build dots */
       var dots = [];
-      var prev, next, expandBtn, dotsContainer;
-
-      function isMobile() { return window.innerWidth <= MOBILE_BP; }
-
-      function buildDots() {
-        dotsContainer.innerHTML = '';
-        dots = [];
-        for (var d = 0; d <= maxPage; d++) {
-          var dot = document.createElement('button');
-          dot.className = 'carousel-dot';
-          dot.setAttribute('aria-label', 'Page ' + (d + 1));
-          (function(idx) { dot.onclick = function() { if (!expanded) show(idx); }; })(d);
-          dotsContainer.appendChild(dot);
-          dots.push(dot);
-        }
+      for (var d = 0; d <= maxPage; d++) {
+        var dot = document.createElement('button');
+        dot.className = 'carousel-dot';
+        dot.setAttribute('aria-label', 'Page ' + (d + 1));
+        (function(idx) { dot.onclick = function() { if (!expanded) show(idx); }; })(d);
+        dotsContainer.appendChild(dot);
+        dots.push(dot);
       }
 
       function updateDots(p) {
@@ -746,6 +790,8 @@
         });
         dotsContainer.style.display = expanded ? 'none' : '';
       }
+
+      function isMobile() { return window.innerWidth <= MOBILE_BP; }
 
       function equalizeHeights() {
         cards.forEach(function(c) { c.style.display = ''; c.style.minHeight = ''; });
@@ -782,25 +828,9 @@
       }
 
       function init() {
-        /* re-query DOM every time so cards injected by loadData() are picked up */
-        var allCards = document.querySelectorAll('#evtGrid .card');
-        cards = Array.prototype.filter.call(allCards, function(c) {
-          return !c.classList.contains('card-ghost');
-        });
-        ghosts = Array.prototype.filter.call(allCards, function(c) {
-          return c.classList.contains('card-ghost');
-        });
-        total = cards.length;
-        maxPage = Math.max(0, Math.ceil(total / PER_PAGE) - 1);
-        prev = document.getElementById('evtPrev');
-        next = document.getElementById('evtNext');
-        expandBtn = document.getElementById('evtExpandBtn');
-        dotsContainer = document.getElementById('evtDots');
-        page = 0;
-        expanded = false;
-        if (expandBtn) expandBtn.innerHTML = 'Show all events &#9660;';
-        buildDots();
         if (isMobile()) {
+          showAll();
+        } else if (expanded) {
           showAll();
         } else {
           equalizeHeights();
@@ -822,8 +852,7 @@
         }
       };
 
-      window.evtInit = init;
-
+      window.addEventListener('load', init);
       window.addEventListener('resize', init);
     })();
 
