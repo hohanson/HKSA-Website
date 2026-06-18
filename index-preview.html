@@ -102,17 +102,20 @@
       max-width: 1100px;
       margin: 0 auto;
       width: 100%;
+    }
+
+    .hero-heading {
       display: flex;
-      align-items: flex-start;
+      align-items: stretch;
       gap: 3rem;
+      margin-bottom: 1.2rem;
     }
 
     .hero-bar {
       width: 5px;
-      height: 180px;
       background: var(--red);
       flex-shrink: 0;
-      margin-top: 0.4rem;
+      align-self: stretch;
     }
 
     .hero-text h1 {
@@ -442,8 +445,9 @@
     /* RESPONSIVE - all mobile rules consolidated here */
     @media (max-width: 600px) {
       .nav-links { display: none; }
-      .hero-inner { flex-direction: column; gap: 1.5rem; }
-      .hero-bar { width: 40px; height: 5px; }
+      .hero-heading { gap: 1.2rem; flex-direction: column; }
+      .hero-bar { width: 40px; height: 5px; align-self: auto; }
+      .hero-text > div[style] { padding-left: 0 !important; }
       .card-grid { grid-template-columns: 1fr; }
       .evt-expand-btn { display: none; }
       .carousel-dots { display: none; }
@@ -504,12 +508,18 @@
   <!-- HERO -->
   <div class="hero">
     <div class="hero-inner">
-      <div class="hero-bar"></div>
       <div class="hero-text">
-        <p style="font-family:var(--font-display);font-size:1.3rem;font-weight:400;color:var(--grey);letter-spacing:0.08em;margin-bottom:0.6rem;">史丹福大學 香港學生會</p>
-        <h1>Hong Kong Student Association at <em>Stanford.</em></h1>
-        <p>A home away from home for Hong Kong students, friends, and anyone who enjoys our culture.</p>
-        <a href="#join" class="hero-cta">Get Involved</a>
+        <div class="hero-heading">
+          <div class="hero-bar"></div>
+          <div>
+            <p style="font-family:var(--font-display);font-size:1.3rem;font-weight:400;color:var(--grey);letter-spacing:0.08em;margin-bottom:0.6rem;">史丹福大學 香港學生會</p>
+            <h1>Hong Kong Student Association at <em>Stanford.</em></h1>
+          </div>
+        </div>
+        <div style="padding-left: calc(5px + 3rem);">
+          <p>A home away from home for Hong Kong students, friends, and anyone who enjoys our culture.</p>
+          <a href="#join" class="hero-cta">Get Involved</a>
+        </div>
       </div>
     </div>
   </div>
