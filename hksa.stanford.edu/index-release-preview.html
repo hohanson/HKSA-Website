@@ -632,7 +632,6 @@
     <h2 class="section-title">Student leaders.</h2>
     <p class="section-body">Meet the officers running HKSA this year.</p>
 
-    <!-- Current officers (2026-27) -->
     <div class="card-grid">
       <div class="card">
         <img src="assets/headshot-epicmark.png" alt="Heison Leong" class="officer-photo" width="250" height="250" />
@@ -752,7 +751,9 @@
   </footer>
 
   <script>
-    /* EVENTS CAROUSEL - cards are hardcoded in DOM, no async loading needed */
+    /* EVENTS CAROUSEL
+       Cards are server-rendered and in the DOM at load time.
+       To change layout: update PER_PAGE + CSS grid-template-columns/rows to match. */
     (function() {
       var PER_PAGE = 6;
       var MOBILE_BP = 600;
@@ -848,7 +849,6 @@
         } else {
           equalizeHeights();
           show(0);
-          expanded = false;
           expandBtn.innerHTML = 'Show all events &#9660;';
         }
       };

@@ -8,12 +8,6 @@
    DATA:   reads from private/hksa/ (outside web root).
    PATH:   __DIR__ = /home/hohanson/hksa.stanford.edu/
            /../   = /home/hohanson/
-           ../../ would overshoot — only one level up needed.
-
-   VERIFY PATH BEFORE FIRST DEPLOY:
-     Add this line temporarily, load page, then delete it:
-       <?= htmlspecialchars(realpath(__DIR__ . '/../private/hksa')) ?>
-     Should print: /home/hohanson/private/hksa
    ============================================================ */
 
 /* --- safe JSON loader: returns [] on any failure, leaks nothing --- */
@@ -654,7 +648,7 @@ $affiliated = [
 
     <div class="past-officers" id="pastOfficers">
       <?php foreach ($past_years as $yr): ?>
-      <div class="past-year-label"><?= e(str_replace('-', '–', $yr['year'])) ?></div>
+      <div class="past-year-label"><?= e(str_replace('-', "\u{2013}", $yr['year'])) ?></div>
       <div class="card-grid">
         <?php foreach ($yr['officers'] as $o): ?>
         <div class="card">
@@ -802,7 +796,6 @@ $affiliated = [
         } else {
           equalizeHeights();
           show(0);
-          expanded = false;
           expandBtn.innerHTML = 'Show all events &#9660;';
         }
       };
