@@ -1,5 +1,67 @@
+<?php
+/* ============================================================
+   HKSA WEBSITE — index-release.php
+   Stanford Hong Kong Student Association
+   https://hksa.stanford.edu/
+
+   DEPLOY: rename to index.php before uploading to cPanel.
+   DATA:   reads from private/hksa/ (outside web root).
+   PATH:   __DIR__ = /home/hohanson/hksa.stanford.edu/
+           /../   = /home/hohanson/
+           ../../ would overshoot — only one level up needed.
+
+   VERIFY PATH BEFORE FIRST DEPLOY:
+     Add this line temporarily, load page, then delete it:
+       <?= htmlspecialchars(realpath(__DIR__ . '/../private/hksa')) ?>
+     Should print: /home/hohanson/private/hksa
+   ============================================================ */
+
+/* --- safe JSON loader: returns [] on any failure, leaks nothing --- */
+function load_json(string $path): array {
+    if (!file_exists($path))   return [];
+    if (!is_readable($path))   return [];
+    $raw = file_get_contents($path);
+    if ($raw === false)        return [];
+    $data = json_decode($raw, true);
+    return is_array($data) ? $data : [];
+}
+
+$base     = __DIR__ . '/../private/hksa/';
+$events   = load_json($base . 'events.json');
+$people   = load_json($base . 'people.json');
+$links    = load_json($base . 'links.json');
+
+$current_officers = $people['current']['officers'] ?? [];
+$past_years       = $people['past'] ?? [];
+
+/* --- helpers --- */
+function e(string $s): string {
+    return htmlspecialchars($s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+}
+
+function link_or_text(string $label, ?string $url): string {
+    if ($url) {
+        return '<a href="' . e($url) . '" target="_blank" rel="noopener noreferrer">' . e($label) . '</a>';
+    }
+    return e($label);
+}
+
+/* --- ghost card count for carousel last page --- */
+$PER_PAGE = 6;
+$evt_count = count($events);
+$rem = $evt_count % $PER_PAGE;
+$ghost_count = ($rem === 0) ? 0 : $PER_PAGE - $rem;
+
+/* --- affiliated orgs config (label => links.json key) --- */
+$affiliated = [
+    'A3C'   => 'a3c',
+    'AASA'  => 'aasa',
+    'AAGSA' => 'aagsa',
+    'TCS'   => 'tcs',
+    'MSA'   => 'msa',
+];
+?>
 <!DOCTYPE html>
-<!-- ACTIVE: copied from index-release.html -- do not edit directly -->
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -358,7 +420,6 @@
     }
 
     .carousel-arr {
-      /* --- easy to restyle: change width/height/border-radius/color here --- */
       width: 36px;
       height: 36px;
       border-radius: 0;
@@ -488,7 +549,6 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
     gtag('config', 'G-TLH5792XHT');
   </script>
 </head>
@@ -540,12 +600,21 @@
   <section id="events">
     <div class="section-label">What We Do</div>
     <h2 class="section-title">Events throughout the year.</h2>
-    <p class="section-body">From food events and mahjong nights to karaoke and movie screenings, we bring Hong Kong culture to life on campus. There's always something on.</p>
+    <p class="section-body">From food events and mahjong nights to karaoke and movie screenings, we bring Hong Kong culture to life on campus. There&rsquo;s always something on.</p>
     <div class="carousel-wrap" id="eventsCarousel">
       <button class="carousel-arr" id="evtPrev" onclick="evtMove(-1)" aria-label="Previous" hidden>&#8249;</button>
       <div class="carousel-viewport">
         <div class="carousel-grid" id="evtGrid">
-          <!-- populated by loadData() from data/events.json -->
+          <?php foreach ($events as $ev): ?>
+          <div class="card">
+            <div class="card-tag"><?= e($ev['tag']) ?></div>
+            <h3><?= e($ev['name']) ?></h3>
+            <p><?= e($ev['description']) ?></p>
+          </div>
+          <?php endforeach; ?>
+          <?php for ($g = 0; $g < $ghost_count; $g++): ?>
+          <div class="card card-ghost" aria-hidden="true"></div>
+          <?php endfor; ?>
         </div>
       </div>
       <button class="carousel-arr" id="evtNext" onclick="evtMove(1)" aria-label="Next">&#8250;</button>
@@ -561,8 +630,17 @@
     <div class="section-label">Our Team</div>
     <h2 class="section-title">Student leaders.</h2>
     <p class="section-body">Meet the officers running HKSA this year.</p>
-    <div class="card-grid" id="currentOfficers">
-      <!-- populated by loadData() from data/people.json -->
+
+    <div class="card-grid">
+      <?php foreach ($current_officers as $o): ?>
+      <div class="card">
+        <img src="<?= e($o['headshot']) ?>" alt="<?= e($o['name']) ?>" class="officer-photo" width="250" height="250" />
+        <div class="card-tag"><?= e($o['role']) ?></div>
+        <h3><?= e($o['name']) ?></h3>
+        <p><?= e($o['bio']) ?></p>
+        <p><a href="mailto:<?= e($o['email'][0]) ?>" style="color:var(--red);font-size:0.85rem;"><?= e($o['email'][0]) ?></a></p>
+      </div>
+      <?php endforeach; ?>
     </div>
 
     <button class="past-toggle" id="pastToggle" onclick="
@@ -575,7 +653,24 @@
     </button>
 
     <div class="past-officers" id="pastOfficers">
-      <!-- populated by loadData() from data/people.json -->
+      <?php foreach ($past_years as $yr): ?>
+      <div class="past-year-label"><?= e(str_replace('-', '–', $yr['year'])) ?></div>
+      <div class="card-grid">
+        <?php foreach ($yr['officers'] as $o): ?>
+        <div class="card">
+          <div class="card-tag"><?= e($o['role']) ?></div>
+          <h3><?= e($o['name']) ?></h3>
+          <?php /* emails stored in JSON but deliberately not rendered */ ?>
+        </div>
+        <?php endforeach; ?>
+      </div>
+      <?php if (!empty($yr['exec_team'])): ?>
+      <div class="exec-row">
+        <span class="card-tag" style="margin-bottom:0;">Executive Team</span>
+        <span class="exec-names"><?= e(implode(' · ', $yr['exec_team'])) ?></span>
+      </div>
+      <?php endif; ?>
+      <?php endforeach; ?>
     </div>
   </section>
 
@@ -587,154 +682,50 @@
     <h2 class="section-title">Get Involved.</h2>
     <p>Sign up on CardinalEngage to become an official member, and join our mailing list and follow us on Instagram to get the latest updates.</p>
     <div class="join-buttons">
-      <a href="#" id="linkCardinalEngage" class="join-cta" target="_blank" rel="noopener noreferrer">CardinalEngage</a>
-      <a href="#" id="linkMailingList" class="join-cta" target="_blank" rel="noopener noreferrer">Mailing List</a>
-      <a href="#" id="linkInstagram" class="join-cta" target="_blank" rel="noopener noreferrer">Instagram</a>
+      <a href="<?= e($links['cardinal_engage'] ?? '#') ?>" class="join-cta" target="_blank" rel="noopener noreferrer">CardinalEngage</a>
+      <a href="<?= e($links['mailing_list'] ?? '#') ?>" class="join-cta" target="_blank" rel="noopener noreferrer">Mailing List</a>
+      <a href="<?= e($links['instagram'] ?? '#') ?>" class="join-cta" target="_blank" rel="noopener noreferrer">Instagram</a>
     </div>
   </div>
 
   <!-- FOOTER -->
   <footer id="contact">
     <p>&copy; 2026&ndash;2027 Stanford Hong Kong Student Association &middot; Last updated June 2026</p>
-    <p style="margin-top: 0.4rem;" id="affiliatedLine">
-      <!-- populated by loadData() from data/links.json -->
+    <p style="margin-top: 0.4rem;">Affiliated with:
+      <?php
+      $parts = [];
+      foreach ($affiliated as $label => $key) {
+          $url = $links[$key] ?? null;
+          $parts[] = link_or_text($label, $url);
+      }
+      echo implode(' &middot; ', $parts);
+      ?>
     </p>
   </footer>
 
   <script>
-    /* DATA LOADER
-       Fetches data/events.json, data/people.json, data/links.json and renders all dynamic content.
-       Requires a local server (python -m http.server 8000) -- fetch() does not work via file:// */
-    (function() {
-      var PER_PAGE_EVENTS = 6; /* must match PER_PAGE in carousel IIFE below */
-      var AFFILIATED_LABELS = {
-        a3c:   'A3C',
-        aasa:  'AASA',
-        aagsa: 'AAGSA',
-        tcs:   'TCS',
-        msa:   'MSA'
-      };
-
-      function fetchJSON(path) {
-        return fetch(path).then(function(r) { return r.json(); });
-      }
-
-      function renderEvents(events) {
-        var grid = document.getElementById('evtGrid');
-        var html = '';
-        events.forEach(function(ev) {
-          html += '<div class="card">'
-            + '<div class="card-tag">' + ev.tag + '</div>'
-            + '<h3>' + ev.name + '</h3>'
-            + '<p>' + ev.description + '</p>'
-            + '</div>';
-        });
-        /* ghost cards to pad last page */
-        var rem = events.length % PER_PAGE_EVENTS;
-        var ghosts = rem === 0 ? 0 : PER_PAGE_EVENTS - rem;
-        for (var g = 0; g < ghosts; g++) {
-          html += '<div class="card card-ghost" aria-hidden="true"></div>';
-        }
-        grid.innerHTML = html;
-      }
-
-      function renderCurrentOfficers(current) {
-        var grid = document.getElementById('currentOfficers');
-        var html = '';
-        current.officers.forEach(function(o) {
-          html += '<div class="card">'
-            + '<img src="' + o.headshot + '" alt="' + o.name + '" class="officer-photo" width="250" height="250" />'
-            + '<div class="card-tag">' + o.role + '</div>'
-            + '<h3>' + o.name + '</h3>'
-            + '<p>' + o.bio + '</p>'
-            + '<p><a href="mailto:' + o.email[0] + '" style="color:var(--red);font-size:0.85rem;">' + o.email[0] + '</a></p>'
-            + '</div>';
-        });
-        grid.innerHTML = html;
-      }
-
-      function renderPastOfficers(past) {
-        var container = document.getElementById('pastOfficers');
-        var html = '';
-        past.forEach(function(yr) {
-          var label = yr.year.replace('-', '&ndash;');
-          html += '<div class="past-year-label">' + label + '</div>'
-            + '<div class="card-grid">';
-          yr.officers.forEach(function(o) {
-            html += '<div class="card">'
-              + '<div class="card-tag">' + o.role + '</div>'
-              + '<h3>' + o.name + '</h3>'
-              /* emails deliberately not rendered -- data kept in JSON for future use */
-              + '</div>';
-          });
-          html += '</div>';
-          if (yr.exec_team && yr.exec_team.length) {
-            html += '<div class="exec-row">'
-              + '<span class="card-tag" style="margin-bottom:0;">Executive Team</span>'
-              + '<span class="exec-names">' + yr.exec_team.join(' &middot; ') + '</span>'
-              + '</div>';
-          }
-        });
-        container.innerHTML = html;
-      }
-
-      function renderLinks(links) {
-        /* join buttons */
-        var joinMap = {
-          linkCardinalEngage: links.cardinal_engage,
-          linkMailingList:    links.mailing_list,
-          linkInstagram:      links.instagram
-        };
-        Object.keys(joinMap).forEach(function(id) {
-          var el = document.getElementById(id);
-          if (el && joinMap[id]) el.href = joinMap[id];
-        });
-        /* affiliated orgs footer */
-        var affiliated = document.getElementById('affiliatedLine');
-        if (affiliated) {
-          var parts = Object.keys(AFFILIATED_LABELS).map(function(key) {
-            var label = AFFILIATED_LABELS[key];
-            var url = links[key];
-            return url
-              ? '<a href="' + url + '" target="_blank" rel="noopener noreferrer">' + label + '</a>'
-              : label;
-          });
-          affiliated.innerHTML = 'Affiliated with: ' + parts.join(' &middot; ');
-        }
-      }
-
-      Promise.all([
-        fetchJSON('data/events.json'),
-        fetchJSON('data/people.json'),
-        fetchJSON('data/links.json')
-      ]).then(function(results) {
-        var events = results[0];
-        var people = results[1];
-        var links  = results[2];
-        renderEvents(events);
-        renderCurrentOfficers(people.current);
-        renderPastOfficers(people.past);
-        renderLinks(links);
-        /* re-init carousel after DOM is populated */
-        if (typeof window.evtInit === 'function') window.evtInit();
-      }).catch(function(err) {
-        console.error('loadData failed:', err);
-      });
-    })();
-
     /* EVENTS CAROUSEL
-       To change grid layout: update PER_PAGE to match cols x rows in .carousel-grid CSS */
+       Cards are server-rendered and in the DOM at load time.
+       To change layout: update PER_PAGE + CSS grid-template-columns/rows to match. */
     (function() {
-      var PER_PAGE = 6; /* 3 cols x 2 rows -- change this if you change the grid */
-      var MOBILE_BP = 600; /* must match @media max-width in CSS */
+      var PER_PAGE = 6; /* 3 cols x 2 rows -- must match PHP $PER_PAGE and CSS grid */
+      var MOBILE_BP = 600;
       var page = 0;
       var expanded = false;
-      var cards = [];
-      var ghosts = [];
-      var total = 0;
-      var maxPage = 0;
+      var allCards = document.querySelectorAll('#evtGrid .card');
+      var cards = Array.prototype.filter.call(allCards, function(c) {
+        return !c.classList.contains('card-ghost');
+      });
+      var ghosts = Array.prototype.filter.call(allCards, function(c) {
+        return c.classList.contains('card-ghost');
+      });
+      var total = cards.length;
+      var maxPage = Math.max(0, Math.ceil(total / PER_PAGE) - 1);
+      var prev = document.getElementById('evtPrev');
+      var next = document.getElementById('evtNext');
+      var expandBtn = document.getElementById('evtExpandBtn');
+      var dotsContainer = document.getElementById('evtDots');
       var dots = [];
-      var prev, next, expandBtn, dotsContainer;
 
       function isMobile() { return window.innerWidth <= MOBILE_BP; }
 
@@ -759,8 +750,7 @@
       }
 
       function equalizeHeights() {
-        cards.forEach(function(c) { c.style.display = ''; c.style.minHeight = ''; });
-        ghosts.forEach(function(c) { c.style.display = 'none'; });
+        cards.forEach(function(c) { c.style.minHeight = ''; });
         var maxH = 0;
         cards.forEach(function(c) { var h = c.offsetHeight; if (h > maxH) maxH = h; });
         cards.forEach(function(c) { c.style.minHeight = maxH + 'px'; });
@@ -768,7 +758,7 @@
       }
 
       function showAll() {
-        cards.forEach(function(c) { c.style.display = ''; c.style.minHeight = ''; });
+        cards.forEach(function(c) { c.style.display = ''; });
         ghosts.forEach(function(c) { c.style.display = 'none'; });
         prev.hidden = true;
         next.hidden = true;
@@ -793,23 +783,6 @@
       }
 
       function init() {
-        /* re-query DOM every time so cards injected by loadData() are picked up */
-        var allCards = document.querySelectorAll('#evtGrid .card');
-        cards = Array.prototype.filter.call(allCards, function(c) {
-          return !c.classList.contains('card-ghost');
-        });
-        ghosts = Array.prototype.filter.call(allCards, function(c) {
-          return c.classList.contains('card-ghost');
-        });
-        total = cards.length;
-        maxPage = Math.max(0, Math.ceil(total / PER_PAGE) - 1);
-        prev = document.getElementById('evtPrev');
-        next = document.getElementById('evtNext');
-        expandBtn = document.getElementById('evtExpandBtn');
-        dotsContainer = document.getElementById('evtDots');
-        page = 0;
-        expanded = false;
-        if (expandBtn) expandBtn.innerHTML = 'Show all events &#9660;';
         buildDots();
         if (isMobile()) {
           showAll();
@@ -829,13 +802,13 @@
         } else {
           equalizeHeights();
           show(0);
+          expanded = false;
           expandBtn.innerHTML = 'Show all events &#9660;';
         }
       };
 
-      window.evtInit = init;
-
-      window.addEventListener('resize', init);
+      window.addEventListener('load', init);
+      window.addEventListener('resize', function() { page = 0; expanded = false; init(); });
     })();
 
     /* ACTIVE NAV HIGHLIGHT via IntersectionObserver */

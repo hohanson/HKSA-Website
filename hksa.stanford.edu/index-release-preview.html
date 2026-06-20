@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<!-- PREVIEW ONLY -- hardcoded snapshot of what index-release.php renders.
+     Do NOT upload to cPanel. For quick local review only -- double-click to open.
+     Keep in sync with index-release.php manually when data changes. -->
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -357,7 +360,6 @@
     }
 
     .carousel-arr {
-      /* --- easy to restyle: change width/height/border-radius/color here --- */
       width: 36px;
       height: 36px;
       border-radius: 0;
@@ -386,7 +388,6 @@
       overflow: hidden;
     }
 
-    /* --- easy to change layout: adjust grid-template here --- */
     .carousel-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -418,7 +419,6 @@
       pointer-events: none;
     }
 
-    /* PAGE INDICATOR DOTS */
     .carousel-dots {
       display: flex;
       gap: 0.5rem;
@@ -439,10 +439,8 @@
 
     .carousel-dot.active { background: var(--red); }
 
-    /* ACTIVE NAV HIGHLIGHT */
     .nav-links a.nav-active { color: var(--red); }
 
-    /* RESPONSIVE - all mobile rules consolidated here */
     @media (max-width: 600px) {
       .nav-links { display: none; }
       .hero-heading { gap: 1.2rem; flex-direction: column; }
@@ -487,7 +485,6 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
     gtag('config', 'G-TLH5792XHT');
   </script>
 </head>
@@ -539,7 +536,7 @@
   <section id="events">
     <div class="section-label">What We Do</div>
     <h2 class="section-title">Events throughout the year.</h2>
-    <p class="section-body">From food events and mahjong nights to karaoke and movie screenings, we bring Hong Kong culture to life on campus. There's always something on.</p>
+    <p class="section-body">From food events and mahjong nights to karaoke and movie screenings, we bring Hong Kong culture to life on campus. There&rsquo;s always something on.</p>
     <div class="carousel-wrap" id="eventsCarousel">
       <button class="carousel-arr" id="evtPrev" onclick="evtMove(-1)" aria-label="Previous" hidden>&#8249;</button>
       <div class="carousel-viewport">
@@ -614,6 +611,7 @@
             <h3>Year-End Celebration</h3>
             <p>Close out the academic year with hotpot, karaoke, and a chance to celebrate our graduating members and reconnect with alumni.</p>
           </div>
+          <!-- 4 ghost cards to pad last page (14 events, 6 per page, 2 on last page, 4 ghosts) -->
           <div class="card card-ghost" aria-hidden="true"></div>
           <div class="card card-ghost" aria-hidden="true"></div>
           <div class="card card-ghost" aria-hidden="true"></div>
@@ -633,6 +631,8 @@
     <div class="section-label">Our Team</div>
     <h2 class="section-title">Student leaders.</h2>
     <p class="section-body">Meet the officers running HKSA this year.</p>
+
+    <!-- Current officers (2026-27) -->
     <div class="card-grid">
       <div class="card">
         <img src="assets/headshot-epicmark.png" alt="Heison Leong" class="officer-photo" width="250" height="250" />
@@ -673,17 +673,14 @@
         <div class="card">
           <div class="card-tag">President</div>
           <h3>Clive Chung</h3>
-          <!-- <p><a href="mailto:lychung@stanford.edu" style="color:var(--red);font-size:0.85rem;">lychung@stanford.edu</a></p> -->
         </div>
         <div class="card">
           <div class="card-tag">Vice President</div>
           <h3>Camille Vong</h3>
-          <!-- <p><a href="mailto:csvong@stanford.edu" style="color:var(--red);font-size:0.85rem;">csvong@stanford.edu</a></p> -->
         </div>
         <div class="card">
           <div class="card-tag">Financial Officer</div>
           <h3>Hanson Ho</h3>
-          <!-- <p><a href="mailto:hohanson@stanford.edu" style="color:var(--red);font-size:0.85rem;">hohanson@stanford.edu</a></p> -->
         </div>
       </div>
       <div class="exec-row">
@@ -696,17 +693,14 @@
         <div class="card">
           <div class="card-tag">President</div>
           <h3>Milly Wong</h3>
-          <!-- <p><a href="mailto:millywy@stanford.edu" style="color:var(--red);font-size:0.85rem;">millywy@stanford.edu</a></p> -->
         </div>
         <div class="card">
           <div class="card-tag">Vice President</div>
           <h3>Erika Yong</h3>
-          <!-- <p><a href="mailto:erikay@stanford.edu" style="color:var(--red);font-size:0.85rem;">erikay@stanford.edu</a></p> -->
         </div>
         <div class="card">
           <div class="card-tag">Financial Officer</div>
           <h3>Hanson Ho</h3>
-          <!-- <p><a href="mailto:hohanson@stanford.edu" style="color:var(--red);font-size:0.85rem;">hohanson@stanford.edu</a></p> -->
         </div>
       </div>
       <div class="exec-row">
@@ -719,18 +713,14 @@
         <div class="card">
           <div class="card-tag">Co-President</div>
           <h3>Carson Chan</h3>
-          <!-- <p><a href="mailto:carsonok@stanford.edu" style="color:var(--red);font-size:0.85rem;">carsonok@stanford.edu</a></p> -->
-          <!-- <p><a href="mailto:c.chan@alumni.stanford.edu" style="color:var(--red);font-size:0.85rem;">c.chan@alumni.stanford.edu</a></p> -->
         </div>
         <div class="card">
           <div class="card-tag">Co-President</div>
           <h3>Jessie Kong</h3>
-          <!-- <p><a href="mailto:jkong2@stanford.edu" style="color:var(--red);font-size:0.85rem;">jkong2@stanford.edu</a></p> -->
         </div>
         <div class="card">
           <div class="card-tag">Financial Officer</div>
           <h3>Erika Yong</h3>
-          <!-- <p><a href="mailto:erikay@stanford.edu" style="color:var(--red);font-size:0.85rem;">erikay@stanford.edu</a></p> -->
         </div>
       </div>
       <div class="exec-row">
@@ -762,11 +752,10 @@
   </footer>
 
   <script>
-    /* EVENTS CAROUSEL
-       To change grid layout: update PER_PAGE to match cols x rows in .carousel-grid CSS */
+    /* EVENTS CAROUSEL - cards are hardcoded in DOM, no async loading needed */
     (function() {
-      var PER_PAGE = 6; /* 3 cols x 2 rows -- change this if you change the grid */
-      var MOBILE_BP = 600; /* must match @media max-width in CSS */
+      var PER_PAGE = 6;
+      var MOBILE_BP = 600;
       var page = 0;
       var expanded = false;
       var allCards = document.querySelectorAll('#evtGrid .card');
@@ -777,21 +766,26 @@
         return c.classList.contains('card-ghost');
       });
       var total = cards.length;
-      var maxPage = Math.ceil(total / PER_PAGE) - 1;
+      var maxPage = Math.max(0, Math.ceil(total / PER_PAGE) - 1);
       var prev = document.getElementById('evtPrev');
       var next = document.getElementById('evtNext');
       var expandBtn = document.getElementById('evtExpandBtn');
       var dotsContainer = document.getElementById('evtDots');
-
-      /* Build dots */
       var dots = [];
-      for (var d = 0; d <= maxPage; d++) {
-        var dot = document.createElement('button');
-        dot.className = 'carousel-dot';
-        dot.setAttribute('aria-label', 'Page ' + (d + 1));
-        (function(idx) { dot.onclick = function() { if (!expanded) show(idx); }; })(d);
-        dotsContainer.appendChild(dot);
-        dots.push(dot);
+
+      function isMobile() { return window.innerWidth <= MOBILE_BP; }
+
+      function buildDots() {
+        dotsContainer.innerHTML = '';
+        dots = [];
+        for (var d = 0; d <= maxPage; d++) {
+          var dot = document.createElement('button');
+          dot.className = 'carousel-dot';
+          dot.setAttribute('aria-label', 'Page ' + (d + 1));
+          (function(idx) { dot.onclick = function() { if (!expanded) show(idx); }; })(d);
+          dotsContainer.appendChild(dot);
+          dots.push(dot);
+        }
       }
 
       function updateDots(p) {
@@ -801,11 +795,8 @@
         dotsContainer.style.display = expanded ? 'none' : '';
       }
 
-      function isMobile() { return window.innerWidth <= MOBILE_BP; }
-
       function equalizeHeights() {
-        cards.forEach(function(c) { c.style.display = ''; c.style.minHeight = ''; });
-        ghosts.forEach(function(c) { c.style.display = 'none'; });
+        cards.forEach(function(c) { c.style.minHeight = ''; });
         var maxH = 0;
         cards.forEach(function(c) { var h = c.offsetHeight; if (h > maxH) maxH = h; });
         cards.forEach(function(c) { c.style.minHeight = maxH + 'px'; });
@@ -813,7 +804,7 @@
       }
 
       function showAll() {
-        cards.forEach(function(c) { c.style.display = ''; c.style.minHeight = ''; });
+        cards.forEach(function(c) { c.style.display = ''; });
         ghosts.forEach(function(c) { c.style.display = 'none'; });
         prev.hidden = true;
         next.hidden = true;
@@ -838,9 +829,8 @@
       }
 
       function init() {
+        buildDots();
         if (isMobile()) {
-          showAll();
-        } else if (expanded) {
           showAll();
         } else {
           equalizeHeights();
@@ -858,12 +848,13 @@
         } else {
           equalizeHeights();
           show(0);
+          expanded = false;
           expandBtn.innerHTML = 'Show all events &#9660;';
         }
       };
 
       window.addEventListener('load', init);
-      window.addEventListener('resize', init);
+      window.addEventListener('resize', function() { page = 0; expanded = false; init(); });
     })();
 
     /* ACTIVE NAV HIGHLIGHT via IntersectionObserver */
