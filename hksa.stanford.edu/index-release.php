@@ -748,7 +748,7 @@ $affiliated = [
   <section>
     <div class="section-label">What We Do</div>
     <h2 class="section-title">Events throughout the year.</h2>
-    <p class="section-body">From food events and mahjong nights to karaoke and movie screenings, we bring Hong Kong culture to life on campus. There&rsquo;s always something on.</p>
+    <p class="section-body">From food events and mahjong nights to karaoke and movie screenings, we bring Hong Kong culture to life on campus.</p>
     <div class="carousel-wrap" id="eventsCarousel">
       <button class="carousel-arr" id="evtPrev" onclick="evtMove(-1)" aria-label="Previous" hidden>&#8249;</button>
       <div class="carousel-viewport">
@@ -818,7 +818,7 @@ $affiliated = [
       <?php if (!empty($yr['exec_team'])): ?>
       <div class="exec-row">
         <span class="card-tag" style="margin-bottom:0;">Executive Team</span>
-        <span class="exec-names"><?= e(implode(' · ', $yr['exec_team'])) ?></span>
+        <span class="exec-names"><?= e(implode(' · ', array_map(fn($m) => $m['name'], $yr['exec_team']))) ?></span>
       </div>
       <?php endif; ?>
       <?php endforeach; ?>

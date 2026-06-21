@@ -52,12 +52,12 @@
         }
       ],
       "exec_team": [
-        "Dominic Cheng",
-        "Alana Chiang",
-        "Alexis Lee",
-        "Heison Leong",
-        "Cindy Shum",
-        "Rebecca Zhang"
+        { "role": "Executive Member", "name": "Dominic Cheng", "sunet": "domcheng", "email": ["domcheng@stanford.edu"], "headshot": "assets/headshot.png", "bio": "" },
+        { "role": "Executive Member", "name": "Alana Chiang",  "sunet": "achiang5", "email": ["achiang5@stanford.edu"], "headshot": "assets/headshot.png", "bio": "" },
+        { "role": "Executive Member", "name": "Alexis Lee",    "sunet": "alexis17", "email": ["alexis17@stanford.edu"], "headshot": "assets/headshot.png", "bio": "" },
+        { "role": "Executive Member", "name": "Heison Leong",  "sunet": "epicmark", "email": ["epicmark@stanford.edu"], "headshot": "assets/headshot.png", "bio": "" },
+        { "role": "Executive Member", "name": "Cindy Shum",    "sunet": "cshum24",  "email": ["cshum24@stanford.edu"],  "headshot": "assets/headshot.png", "bio": "" },
+        { "role": "Executive Member", "name": "Rebecca Zhang", "sunet": "yijia830", "email": ["yijia830@stanford.edu"], "headshot": "assets/headshot.png", "bio": "" }
       ]
     },
     {
@@ -83,10 +83,10 @@
         }
       ],
       "exec_team": [
-        "Clive Chung",
-        "Edward Tang",
-        "Gordon Yeung",
-        "Chinat Yu"
+        { "role": "Executive Member", "name": "Clive Chung",  "sunet": "lychung",  "email": ["lychung@stanford.edu"],  "headshot": "assets/headshot.png", "bio": "" },
+        { "role": "Executive Member", "name": "Edward Tang",  "sunet": "edtanglh", "email": ["edtanglh@stanford.edu"], "headshot": "assets/headshot.png", "bio": "" },
+        { "role": "Executive Member", "name": "Gordon Yeung", "sunet": "wlyeung",  "email": ["wlyeung@stanford.edu"],  "headshot": "assets/headshot.png", "bio": "" },
+        { "role": "Executive Member", "name": "Chinat Yu",    "sunet": "chinat",   "email": ["chinat@stanford.edu"],   "headshot": "assets/headshot.png", "bio": "" }
       ]
     },
     {
@@ -112,8 +112,8 @@
         }
       ],
       "exec_team": [
-        "Hanson Ho",
-        "Milly Wong"
+        { "role": "Executive Member", "name": "Hanson Ho",   "sunet": "hohanson", "email": ["hohanson@stanford.edu"], "headshot": "assets/headshot.png", "bio": "" },
+        { "role": "Executive Member", "name": "Milly Wong",  "sunet": "millywy",  "email": ["millywy@stanford.edu"],  "headshot": "assets/headshot.png", "bio": "" }
       ]
     }
   ]
