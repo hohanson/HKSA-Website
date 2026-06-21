@@ -42,8 +42,7 @@ function link_or_text(string $label, ?string $url): string {
 
 /* --- ghost card count for carousel last page --- */
 $PER_PAGE = 6;
-$evt_count = count($events);
-$rem = $evt_count % $PER_PAGE;
+$rem = count($events) % $PER_PAGE;
 $ghost_count = ($rem === 0) ? 0 : $PER_PAGE - $rem;
 
 /* --- affiliated orgs config (label => links.json key) --- */
@@ -78,7 +77,12 @@ $affiliated = [
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
+    html.no-snap { scroll-snap-type: none; }
+
+    @media (max-width: 600px) {
+      html { scroll-snap-type: none; }
+    }
 
     body {
       font-family: var(--font-body);
@@ -137,7 +141,6 @@ $affiliated = [
       display: flex;
       align-items: center;
       padding: 80px 2rem 4rem;
-      max-width: 100%;
       position: relative;
       overflow: hidden;
     }
@@ -176,6 +179,14 @@ $affiliated = [
     .section-wrap--about::before   { background-image: url('assets/bg-about.jpg');  background-position: center; }
     .section-wrap--events::before  { background-image: url('assets/bg-events.jpg'); background-position: top; }
     .section-wrap--people::before  { background-image: url('assets/bg-people.jpg'); background-position: center; }
+    .section-wrap--join::before    { background-image: url('assets/bg-join.jpg');   background-position: center; }
+
+    /* scroll-snap alignment — full-height sections only */
+    .hero                  { scroll-snap-align: start; }
+    .section-wrap--about   { scroll-snap-align: start; }
+    .section-wrap--events  { scroll-snap-align: start; }
+    .section-wrap--people  { scroll-snap-align: start; }
+    .section-wrap--join    { scroll-snap-align: start; }
 
     .section-wrap section {
       position: relative;
@@ -401,19 +412,18 @@ $affiliated = [
 
     /* JOIN */
     .join-block {
-      background: var(--black);
       padding: 4rem 2rem;
       text-align: center;
     }
 
-    .join-block .section-label { color: #E50808; }
-    .join-block .section-title { color: var(--white); margin-bottom: 1rem; }
-    .join-block p { color: var(--border); margin-bottom: 2rem; font-size: 1rem; }
+    .join-block .section-title { margin-bottom: 1rem; }
+    .join-block p { margin-bottom: 2rem; }
 
     .join-cta {
       display: inline-block;
-      border: 2px solid var(--white);
+      background: var(--red);
       color: var(--white);
+      border: 2px solid var(--red);
       padding: 0.75rem 2rem;
       text-decoration: none;
       font-size: 0.9rem;
@@ -424,21 +434,115 @@ $affiliated = [
       text-align: center;
     }
 
-    .join-cta:hover { background: var(--white); color: var(--black); }
+    .join-cta:hover { background: var(--white); color: var(--red); }
     .join-buttons { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
     .join-buttons .join-cta { flex: 1 0 auto; max-width: 200px; }
 
-    /* FOOTER */
+    /* CONTACT / FOOTER */
     footer {
       background: var(--black);
       border-top: 1px solid var(--grey);
-      padding: 2rem;
+      padding: 5rem 2rem 3rem;
       text-align: center;
+      scroll-snap-align: start;
     }
 
-    footer p { font-size: 0.8rem; color: var(--border); }
-    footer a { color: var(--border); text-decoration: none; transition: color 0.2s; }
-    footer a:hover { color: var(--red); }
+    .contact-inner {
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    footer .section-label { color: #E50808; }
+    footer .section-title { color: var(--white); margin-bottom: 1rem; }
+    footer .section-body  { color: var(--border); margin-bottom: 2.5rem; }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      text-align: left;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      background: transparent;
+      border: 1px solid var(--grey);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      padding: 0.75rem 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder { color: var(--grey); }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus { border-color: var(--white); }
+
+    .contact-form textarea { min-height: 130px; resize: none; }
+
+    .contact-submit {
+      align-self: flex-start;
+      background: var(--red);
+      color: var(--white);
+      border: 2px solid var(--red);
+      padding: 0.75rem 2rem;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .contact-submit:hover { background: var(--white); color: var(--red); }
+    .contact-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .contact-feedback {
+      font-size: 0.88rem;
+      margin-top: 0.5rem;
+      min-height: 1.2em;
+    }
+
+    .contact-feedback.success { color: #008566; }
+    .contact-feedback.error   { color: var(--red); }
+
+    /* honeypot — visually hidden */
+    .contact-hp { display: none; }
+
+    .contact-subject-wrap {
+      position: relative;
+    }
+
+    .contact-subject-wrap input {
+      padding-right: 3rem;
+    }
+
+    .contact-counter {
+      position: absolute;
+      right: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.75rem;
+      color: var(--grey);
+      pointer-events: none;
+      transition: color 0.2s;
+    }
+
+    .contact-counter.warn { color: var(--red); }
+
+    .footer-meta {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--grey);
+    }
+
+    .footer-meta p { font-size: 0.8rem; color: var(--border); }
+    .footer-meta a { color: var(--border); text-decoration: none; transition: color 0.2s; }
+    .footer-meta a:hover { color: var(--red); }
 
     /* EVENTS CAROUSEL - desktop */
     .carousel-wrap {
@@ -547,7 +651,6 @@ $affiliated = [
       .carousel-viewport {
         overflow-x: auto;
         scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
       }
       .carousel-viewport::-webkit-scrollbar { display: none; }
@@ -671,7 +774,7 @@ $affiliated = [
         <img src="<?= e($o['headshot']) ?>" alt="<?= e($o['name']) ?>" class="officer-photo" width="250" height="250" />
         <div class="card-tag"><?= e($o['role']) ?></div>
         <h3><?= e($o['name']) ?></h3>
-        <p><?= e($o['bio']) ?></p>
+        <?php if (!empty($o['bio'])): ?><p><?= e($o['bio']) ?></p><?php endif; ?>
         <p><a href="mailto:<?= e($o['email'][0]) ?>" style="color:var(--red);font-size:0.85rem;"><?= e($o['email'][0]) ?></a></p>
       </div>
       <?php endforeach; ?>
@@ -681,6 +784,7 @@ $affiliated = [
       this.classList.toggle('open');
       document.getElementById('pastOfficers').classList.toggle('open');
       this.querySelector('.toggle-label').textContent = this.classList.contains('open') ? 'Hide past officers' : 'Show past officers';
+      this.setAttribute('aria-expanded', this.classList.contains('open') ? 'true' : 'false');
     " aria-expanded="false">
       <span class="toggle-label">Show past officers</span>
       <i class="toggle-chevron">&#9660;</i>
@@ -712,30 +816,58 @@ $affiliated = [
   <hr class="divider" />
 
   <!-- JOIN -->
-  <div class="join-block" id="join">
-    <div class="section-label">Join Us</div>
-    <h2 class="section-title">Get Involved.</h2>
-    <p>Sign up on CardinalEngage to become an official member, and join our mailing list and follow us on Instagram to get the latest updates.</p>
-    <div class="join-buttons">
-      <a href="<?= e($links['cardinal_engage'] ?? '#') ?>" class="join-cta" target="_blank" rel="noopener noreferrer">CardinalEngage</a>
-      <a href="<?= e($links['mailing_list'] ?? '#') ?>" class="join-cta" target="_blank" rel="noopener noreferrer">Mailing List</a>
-      <a href="<?= e($links['instagram'] ?? '#') ?>" class="join-cta" target="_blank" rel="noopener noreferrer">Instagram</a>
+  <div class="section-wrap section-wrap--join" id="join">
+  <section>
+    <div class="join-block">
+      <div class="section-label">Join Us</div>
+      <h2 class="section-title">Get Involved.</h2>
+      <p>Sign up on CardinalEngage to become an official member, and join our mailing list and follow us on Instagram to get the latest updates.</p>
+      <div class="join-buttons">
+        <a href="<?= e($links['cardinal_engage'] ?? '#') ?>" class="join-cta" target="_blank" rel="noopener noreferrer">CardinalEngage</a>
+        <a href="<?= e($links['mailing_list'] ?? '#') ?>" class="join-cta" target="_blank" rel="noopener noreferrer">Mailing List</a>
+        <a href="<?= e($links['instagram'] ?? '#') ?>" class="join-cta" target="_blank" rel="noopener noreferrer">Instagram</a>
+      </div>
     </div>
+  </section>
   </div>
 
-  <!-- FOOTER -->
+  <!-- CONTACT / FOOTER -->
   <footer id="contact">
-    <p>&copy; 2026&ndash;2027 Stanford Hong Kong Student Association &middot; Last updated June 2026</p>
-    <p style="margin-top: 0.4rem;">Affiliated with:
-      <?php
-      $parts = [];
-      foreach ($affiliated as $label => $key) {
-          $url = $links[$key] ?? null;
-          $parts[] = link_or_text($label, $url);
-      }
-      echo implode(' &middot; ', $parts);
-      ?>
-    </p>
+    <div class="contact-inner">
+      <div class="section-label">Contact</div>
+      <h2 class="section-title">Get in touch.</h2>
+      <p class="section-body">Have a question or want to know more about HKSA? Send us a message and we&rsquo;ll get back to you.</p>
+
+      <form class="contact-form" id="contactForm">
+        <input type="text"  name="name"    id="contactName"    placeholder="Name"          autocomplete="name"  required />
+        <input type="email" name="email"   id="contactEmail"   placeholder="Email address" autocomplete="email" required />
+        <div class="contact-subject-wrap">
+          <input type="text" name="subject" id="contactSubject" placeholder="Subject" maxlength="78" required />
+          <span class="contact-counter" id="subjectCounter">78</span>
+        </div>
+        <textarea           name="message" id="contactMessage" placeholder="Message"        required></textarea>
+        <!-- honeypot -->
+        <div class="contact-hp" aria-hidden="true">
+          <input type="text" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+        <button type="submit" class="contact-submit" id="contactSubmit">Send Message</button>
+        <div class="contact-feedback" id="contactFeedback" aria-live="polite"></div>
+      </form>
+
+      <div class="footer-meta">
+        <p>&copy; 2026&ndash;2027 Stanford Hong Kong Student Association &middot; Last updated June 2026</p>
+        <p style="margin-top: 0.4rem;">Affiliated with:
+          <?php
+          $parts = [];
+          foreach ($affiliated as $label => $key) {
+              $url = $links[$key] ?? null;
+              $parts[] = link_or_text($label, $url);
+          }
+          echo implode(' &middot; ', $parts);
+          ?>
+        </p>
+      </div>
+    </div>
   </footer>
 
   <script>
@@ -834,10 +966,15 @@ $affiliated = [
         if (expanded) {
           showAll();
           expandBtn.innerHTML = 'Show fewer &#9650;';
+          document.documentElement.classList.add('no-snap');
         } else {
           equalizeHeights();
           show(0);
           expandBtn.innerHTML = 'Show all events &#9660;';
+          document.documentElement.style.scrollBehavior = 'auto';
+          document.getElementById('events').scrollIntoView();
+          document.documentElement.classList.remove('no-snap');
+          document.documentElement.style.scrollBehavior = '';
         }
       };
 
@@ -874,13 +1011,17 @@ $affiliated = [
 
     /* ACTIVE NAV HIGHLIGHT via IntersectionObserver */
     (function() {
-      var sections = document.querySelectorAll('section[id], div[id="about"], div[id="events"], div[id="people"], div[id="join"]');
+      var sections = document.querySelectorAll('div[id="about"], div[id="events"], div[id="people"], div[id="join"]');
       var navLinks = document.querySelectorAll('.nav-links a');
 
       function setActive(id) {
         navLinks.forEach(function(a) {
           a.classList.toggle('nav-active', a.getAttribute('href') === '#' + id);
         });
+      }
+
+      function clearActive() {
+        navLinks.forEach(function(a) { a.classList.remove('nav-active'); });
       }
 
       var observer = new IntersectionObserver(function(entries) {
@@ -890,6 +1031,64 @@ $affiliated = [
       }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
 
       sections.forEach(function(s) { observer.observe(s); });
+
+      /* clear highlight when scrolled back to hero */
+      window.addEventListener('scroll', function() {
+        if (window.scrollY < window.innerHeight * 0.5) clearActive();
+      }, { passive: true });
+    })();
+
+    /* CONTACT FORM */
+    (function() {
+      var form     = document.getElementById('contactForm');
+      var btn      = document.getElementById('contactSubmit');
+      var feedback = document.getElementById('contactFeedback');
+      var subject  = document.getElementById('contactSubject');
+      var counter  = document.getElementById('subjectCounter');
+      var MAX      = 78;
+
+      subject.addEventListener('input', function() {
+        var remaining = MAX - subject.value.length;
+        counter.textContent = remaining;
+        counter.classList.toggle('warn', remaining <= 10);
+      });
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        btn.disabled = true;
+        btn.textContent = 'Sending\u2026';
+        feedback.textContent = '';
+        feedback.className = 'contact-feedback';
+
+        function resetBtn() {
+          btn.textContent = 'Send Message';
+          btn.disabled = false;
+        }
+
+        fetch('contact.php', {
+          method: 'POST',
+          body: new FormData(form)
+        })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+          if (data.success) {
+            form.reset();
+            counter.textContent = MAX;
+            counter.classList.remove('warn');
+            feedback.textContent = data.message;
+            feedback.classList.add('success');
+          } else {
+            feedback.textContent = data.message;
+            feedback.classList.add('error');
+          }
+          resetBtn();
+        })
+        .catch(function() {
+          feedback.textContent = 'Something went wrong. Please try again.';
+          feedback.classList.add('error');
+          resetBtn();
+        });
+      });
     })();
   </script>
 </body>

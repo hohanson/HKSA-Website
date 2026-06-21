@@ -8,7 +8,7 @@
         "sunet": "epicmark",
         "email": ["epicmark@stanford.edu"],
         "headshot": "assets/headshot-epicmark.png",
-        "bio": "Bio placeholder."
+        "bio": ""
       },
       {
         "role": "Vice President",
@@ -16,7 +16,7 @@
         "sunet": "tchtai",
         "email": ["tchtai@stanford.edu"],
         "headshot": "assets/headshot-tchtai.png",
-        "bio": "Bio placeholder."
+        "bio": ""
       },
       {
         "role": "Financial Officer",
@@ -24,7 +24,7 @@
         "sunet": "hohanson",
         "email": ["hohanson@stanford.edu"],
         "headshot": "assets/headshot-hohanson.png",
-        "bio": "Bio placeholder."
+        "bio": ""
       }
     ]
   },
