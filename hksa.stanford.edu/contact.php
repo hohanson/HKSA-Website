@@ -23,6 +23,10 @@ if (!empty($_POST['website'])) {
     exit;
 }
 
+/* Recipient — defined early because the reCAPTCHA config-failure alert uses it too */
+$to         = 'hohanson@stanford.edu';
+$from_email = trim(explode(',', $to)[0]);
+
 /* Sanitise and validate */
 $name    = trim($_POST['name']    ?? '');
 $email   = trim($_POST['email']   ?? '');
@@ -67,14 +71,20 @@ if (!empty($errors)) {
 $recaptcha_token = trim($_POST['g-recaptcha-response'] ?? '');
 $recaptcha_ok    = false;
 $recaptcha_score = null;
+$version         = 'v3';   /* default; overwritten from config when available */
+$config_failed   = false;
 
 if ($recaptcha_token !== '') {
     $rc_config = @file_get_contents(__DIR__ . '/../private/hksa/recaptcha.json');
-    if ($rc_config !== false) {
+    if ($rc_config === false) {
+        $config_failed = true;            /* json missing or unreadable */
+    } else {
         $rc      = json_decode($rc_config, true);
         $version = $rc['version'] ?? 'v3';
         $secret  = $rc[$version]['secret_key'] ?? '';
-        if ($secret !== '') {
+        if ($secret === '') {
+            $config_failed = true;        /* config present but key blank */
+        } else {
             $ch = curl_init('https://www.google.com/recaptcha/api/siteverify');
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
@@ -107,6 +117,28 @@ if ($recaptcha_token !== '') {
     }
 }
 
+/* Config-failure alert: gate stays closed (no spam through), but notify the admin so a
+   broken/blank recaptcha.json doesn't silently take the form down. Fires only on a real
+   submission (token present) that hit broken config — not on empty-token bots, and not on
+   legitimate low-score rejections. Throttled to once/hour so submissions can't flood the
+   inbox. Same From header as normal mail, so the existing inbox whitelist covers it. */
+if ($config_failed) {
+    error_log('[HKSA] reCAPTCHA config load failed — contact form is rejecting all submissions.');
+    $lock = sys_get_temp_dir() . '/hksa_rc_alert.lock';
+    $last = @file_exists($lock) ? (int) @file_get_contents($lock) : 0;
+    if (time() - $last >= 3600) {
+        @file_put_contents($lock, (string) time());
+        $alert_headers  = "From: Stanford HKSA <" . $from_email . ">\r\n";
+        $alert_headers .= "MIME-Version: 1.0\r\n";
+        $alert_headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+        $alert_body  = "The HKSA contact form could not load reCAPTCHA config and is\n";
+        $alert_body .= "rejecting all submissions.\n\n";
+        $alert_body .= "Fix: check private/hksa/recaptcha.json on cPanel.\n";
+        $alert_body .= "Time: " . gmdate('Y-m-d H:i:s') . " UTC\n";
+        @mail($to, '[HKSA] reCAPTCHA config failure', $alert_body, $alert_headers);
+    }
+}
+
 if (!$recaptcha_ok) {
     http_response_code(422);
     echo json_encode(['success' => false, 'message' => 'Verification failed. Please refresh and try again.']);
@@ -114,8 +146,6 @@ if (!$recaptcha_ok) {
 }
 
 /* Compose email */
-$to         = 'hohanson@stanford.edu';
-$from_email = trim(strtok($to, ','));
 
 /* Strip headers from user input to prevent injection */
 $safe_name    = str_replace(["\r", "\n"], '', $name);

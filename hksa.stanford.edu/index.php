@@ -65,621 +65,9 @@ $affiliated = [
   <title>Stanford HKSA</title>
   <link rel="icon" type="image/png" href="assets/favicon.png" />
   <meta property="og:image" content="assets/og-image.jpg" />
+  <!-- TODO: add og:description once finalized -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --red:          #B1040E;
-      --black:        #2E2D29;
-      --bg:           #F5F5F0;
-      --white:        #FFFFFF;
-      --grey:         #53565A;
-      --border:       #D5D5D4;
-      --font-display: 'Playfair Display', 'Noto Serif TC', serif;
-      --font-body:    'Inter', 'Noto Sans TC', sans-serif;
-    }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
-    html.no-snap { scroll-snap-type: none; }
-
-    @media (max-width: 600px) {
-      html { scroll-snap-type: none; }
-    }
-
-    body {
-      font-family: var(--font-body);
-      background: var(--bg);
-      color: var(--black);
-      font-size: 16px;
-      line-height: 1.6;
-    }
-
-    /* NAV */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      background: var(--bg);
-      border-bottom: 1px solid var(--border);
-      z-index: 100;
-      padding: 0 2rem;
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .nav-logo {
-      font-family: var(--font-display);
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: var(--black);
-      text-decoration: none;
-      letter-spacing: 0.02em;
-    }
-
-    .nav-logo span { color: var(--red); }
-
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-    }
-
-    .nav-links a {
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: var(--grey);
-      text-decoration: none;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover { color: var(--red); }
-
-    /* HERO */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      padding: 80px 2rem 4rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image: url('assets/bg-hero.jpg');
-      background-size: cover;
-      opacity: 0.15;
-      z-index: 0;
-    }
-
-    /* SECTION WRAPS — full-bleed background image containers */
-    .section-wrap {
-      position: relative;
-      overflow: hidden;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-    }
-
-    .section-wrap::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-size: cover;
-      background-attachment: fixed;
-      opacity: 0.15;
-      z-index: 0;
-    }
-
-    /* adjust background-position per photo: top / center / bottom / "center 30%" etc. */
-    .hero::before                  { background-position: center; }
-    .section-wrap--about::before   { background-image: url('assets/bg-about.jpg');  background-position: center; }
-    .section-wrap--events::before  { background-image: url('assets/bg-events.jpg'); background-position: top; }
-    .section-wrap--people::before  { background-image: url('assets/bg-people.jpg'); background-position: center; }
-    .section-wrap--join::before    { background-image: url('assets/bg-join.jpg');   background-position: center; }
-
-    /* scroll-snap alignment — full-height sections only */
-    .hero                  { scroll-snap-align: start; }
-    .section-wrap--about   { scroll-snap-align: start; }
-    .section-wrap--events  { scroll-snap-align: start; }
-    .section-wrap--people  { scroll-snap-align: start; }
-    .section-wrap--join    { scroll-snap-align: start; }
-
-    .section-wrap section {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-    }
-
-    .hero-inner {
-      position: relative;
-      z-index: 1;
-      max-width: 1100px;
-      margin: 0 auto;
-      width: 100%;
-    }
-
-    .hero-heading {
-      display: flex;
-      align-items: stretch;
-      gap: 3rem;
-      margin-bottom: 1.2rem;
-    }
-
-    .hero-bar {
-      width: 5px;
-      background: var(--red);
-      flex-shrink: 0;
-      align-self: stretch;
-    }
-
-    .hero-text h1 {
-      font-family: var(--font-display);
-      font-size: clamp(2.8rem, 6vw, 5rem);
-      font-weight: 700;
-      line-height: 1.1;
-      color: var(--black);
-      margin-bottom: 1.2rem;
-    }
-
-    .hero-text h1 em {
-      font-style: normal;
-      color: var(--red);
-    }
-
-    .hero-text p {
-      font-size: 1.1rem;
-      color: var(--grey);
-      font-weight: 300;
-      max-width: 480px;
-      margin-bottom: 2rem;
-      line-height: 1.8;
-    }
-
-    .hero-cta {
-      display: inline-block;
-      background: var(--red);
-      color: var(--white);
-      padding: 0.75rem 2rem;
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      transition: opacity 0.2s;
-    }
-
-    .hero-cta:hover { opacity: 0.85; }
-
-    /* SECTIONS */
-    section {
-      padding: 5rem 2rem;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .section-label {
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--red);
-      margin-bottom: 1rem;
-    }
-
-    .section-title {
-      font-family: var(--font-display);
-      font-size: clamp(1.8rem, 3vw, 2.6rem);
-      font-weight: 700;
-      color: var(--black);
-      margin-bottom: 1.2rem;
-    }
-
-    .section-body {
-      font-size: 1rem;
-      color: var(--grey);
-      max-width: 580px;
-      line-height: 1.9;
-    }
-
-    .divider {
-      border: none;
-      border-top: 1px solid var(--border);
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    /* CARDS (shared by events and people) */
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-      margin-top: 2.5rem;
-    }
-
-    .card {
-      background: var(--white);
-      padding: 1.8rem;
-      border: 1px solid var(--border);
-      transition: border-color 0.2s;
-      min-width: 0;
-    }
-
-    .card:hover { border-color: var(--red); }
-
-    .card-tag {
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--red);
-      margin-bottom: 0.6rem;
-    }
-
-    .card h3 {
-      font-family: var(--font-display);
-      font-size: 1.2rem;
-      color: var(--black);
-      margin-bottom: 0.5rem;
-    }
-
-    .card p {
-      font-size: 0.88rem;
-      color: var(--grey);
-      line-height: 1.7;
-    }
-
-    /* OFFICER PHOTO */
-    .officer-photo {
-      width: 100%;
-      height: auto;
-      display: block;
-      margin-bottom: 1.2rem;
-      background: var(--bg);
-    }
-
-    /* IMAGE DOWNLOAD PREVENTION */
-    img { user-select: none; -webkit-user-drag: none; }
-
-    /* PAST OFFICERS TOGGLE */
-    .past-toggle {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-top: 1.8rem;
-      background: none;
-      border: 1px solid var(--border);
-      color: var(--grey);
-      font-family: var(--font-body);
-      font-size: 0.85rem;
-      font-weight: 500;
-      letter-spacing: 0.04em;
-      padding: 0.55rem 1.2rem;
-      cursor: pointer;
-      transition: border-color 0.2s, color 0.2s;
-    }
-
-    .past-toggle:hover { border-color: var(--red); color: var(--red); }
-
-    .past-toggle .toggle-chevron {
-      display: inline-block;
-      transition: transform 0.25s;
-      font-style: normal;
-      font-size: 0.75rem;
-    }
-
-    .past-toggle.open .toggle-chevron { transform: rotate(180deg); }
-
-    .past-officers {
-      overflow: hidden;
-      max-height: 0;
-      transition: max-height 0.35s ease;
-    }
-
-    .past-officers.open { max-height: 2000px; }
-
-    .past-year-label {
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--grey);
-      margin: 2rem 0 1rem;
-    }
-
-    .exec-row {
-      display: flex;
-      align-items: baseline;
-      gap: 0.75rem;
-      margin-top: 1rem;
-      padding-top: 0.8rem;
-      border-top: 1px solid var(--border);
-    }
-
-    .exec-names {
-      font-size: 0.88rem;
-      color: var(--grey);
-    }
-
-    .exec-row .card-tag {
-      flex-shrink: 0;
-      width: 120px;
-      min-width: 120px;
-      margin-bottom: 0;
-    }
-
-    /* JOIN */
-    .join-block {
-      padding: 4rem 2rem;
-      text-align: center;
-    }
-
-    .join-block .section-title { margin-bottom: 1rem; }
-    .join-block p { margin-bottom: 2rem; }
-
-    .join-cta {
-      display: inline-block;
-      background: var(--red);
-      color: var(--white);
-      border: 2px solid var(--red);
-      padding: 0.75rem 2rem;
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      transition: background 0.2s, color 0.2s;
-      min-width: 160px;
-      text-align: center;
-    }
-
-    .join-cta:hover { background: var(--white); color: var(--red); }
-    .join-buttons { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
-    .join-buttons .join-cta { flex: 1 0 auto; max-width: 200px; }
-
-    /* CONTACT / FOOTER */
-    footer {
-      background: var(--black);
-      border-top: 1px solid var(--grey);
-      padding: 5rem 2rem 3rem;
-      text-align: center;
-      scroll-snap-align: start;
-    }
-
-    .contact-inner {
-      max-width: 560px;
-      margin: 0 auto;
-    }
-
-    footer .section-label { color: #E50808; }
-    footer .section-title { color: var(--white); margin-bottom: 1rem; }
-    footer .section-body  { color: var(--border); margin-bottom: 2.5rem; }
-
-    .contact-form {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      text-align: left;
-    }
-
-    .contact-form input,
-    .contact-form textarea {
-      width: 100%;
-      background: transparent;
-      border: 1px solid var(--grey);
-      color: var(--white);
-      font-family: var(--font-body);
-      font-size: 0.9rem;
-      padding: 0.75rem 1rem;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .contact-form input::placeholder,
-    .contact-form textarea::placeholder { color: var(--grey); }
-
-    .contact-form input:focus,
-    .contact-form textarea:focus { border-color: var(--white); }
-
-    .contact-form textarea { min-height: 130px; resize: none; }
-
-    .contact-submit {
-      align-self: flex-start;
-      background: var(--red);
-      color: var(--white);
-      border: 2px solid var(--red);
-      padding: 0.75rem 2rem;
-      font-family: var(--font-body);
-      font-size: 0.9rem;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      cursor: pointer;
-      transition: background 0.2s, color 0.2s;
-    }
-
-    .contact-submit:hover { background: var(--white); color: var(--red); }
-    .contact-submit:disabled { opacity: 0.5; cursor: not-allowed; }
-
-    .contact-feedback {
-      font-size: 0.88rem;
-      margin-top: 0.5rem;
-      min-height: 1.2em;
-    }
-
-    .contact-feedback.success { color: #008566; }
-    .contact-feedback.error   { color: var(--red); }
-
-    /* honeypot — visually hidden */
-    .contact-hp { display: none; }
-
-    /* reCAPTCHA v2 widget spacing */
-    .g-recaptcha { margin-top: 0.5rem; }
-
-    .contact-subject-wrap {
-      position: relative;
-    }
-
-    .contact-subject-wrap input {
-      padding-right: 3rem;
-    }
-
-    .contact-counter {
-      position: absolute;
-      right: 0.75rem;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 0.75rem;
-      color: var(--grey);
-      pointer-events: none;
-      transition: color 0.2s;
-    }
-
-    .contact-counter.warn { color: var(--red); }
-
-    .footer-meta {
-      margin-top: 3rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--grey);
-    }
-
-    .footer-meta p { font-size: 0.8rem; color: var(--border); }
-    .footer-meta a { color: var(--border); text-decoration: none; transition: color 0.2s; }
-    .footer-meta a:hover { color: var(--red); }
-
-    /* EVENTS CAROUSEL - desktop */
-    .carousel-wrap {
-      position: relative;
-      margin-top: 2.5rem;
-    }
-
-    .carousel-arr {
-      width: 36px;
-      height: 36px;
-      border-radius: 0;
-      border: 1px solid var(--border);
-      background: var(--white);
-      color: var(--black);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 1.1rem;
-      transition: border-color 0.2s, color 0.2s;
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-
-    .carousel-arr:hover { border-color: var(--red); color: var(--red); }
-    .carousel-arr[hidden] { display: none; }
-
-    #evtPrev { left: -52px; }
-    #evtNext { right: -52px; }
-
-    .carousel-viewport {
-      width: 100%;
-      overflow: hidden;
-    }
-
-    /* --- easy to change layout: adjust grid-template here --- */
-    .carousel-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(2, auto);
-      gap: 1.5rem;
-    }
-
-    .evt-expand-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-top: 1.5rem;
-      background: none;
-      border: 1px solid var(--border);
-      color: var(--grey);
-      font-family: var(--font-body);
-      font-size: 0.85rem;
-      font-weight: 500;
-      letter-spacing: 0.04em;
-      padding: 0.55rem 1.2rem;
-      cursor: pointer;
-      transition: border-color 0.2s, color 0.2s;
-    }
-
-    .evt-expand-btn:hover { border-color: var(--red); color: var(--red); }
-
-    .card-ghost {
-      visibility: hidden;
-      pointer-events: none;
-    }
-
-    /* PAGE INDICATOR DOTS */
-    .carousel-dots {
-      display: flex;
-      gap: 0.5rem;
-      justify-content: center;
-      margin-top: 1rem;
-    }
-
-    .carousel-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--border);
-      border: none;
-      padding: 0;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .carousel-dot.active { background: var(--red); }
-
-    /* ACTIVE NAV HIGHLIGHT */
-    .nav-links a.nav-active { color: var(--red); }
-
-    /* RESPONSIVE - all mobile rules consolidated here */
-    @media (max-width: 600px) {
-      .nav-links { display: none; }
-      .hero-heading { gap: 1.2rem; flex-direction: column; }
-      .hero-bar { width: 40px; height: 5px; align-self: auto; }
-      .hero-text > div[style] { padding-left: 0 !important; }
-      .card-grid { grid-template-columns: 1fr; }
-      .evt-expand-btn { display: none; }
-      .carousel-dots { display: none; }
-      .join-buttons { flex-direction: column; align-items: center; }
-      .join-cta { width: 240px; }
-      .carousel-wrap { gap: 0; }
-      .carousel-arr { display: none; }
-      .carousel-viewport {
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        scrollbar-width: none;
-      }
-      .carousel-viewport::-webkit-scrollbar { display: none; }
-      .carousel-grid {
-        display: grid;
-        grid-auto-flow: column;
-        grid-template-rows: repeat(3, auto);
-        grid-template-columns: unset;
-        width: max-content;
-        gap: 1rem;
-      }
-      .carousel-grid .card {
-        width: 75vw;
-        scroll-snap-align: start;
-      }
-      .exec-row .card-tag {
-        width: 80px;
-        min-width: 80px;
-      }
-      .hero::before,
-      .section-wrap::before { background-attachment: scroll; }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-TLH5792XHT"></script>
@@ -718,7 +106,7 @@ $affiliated = [
         <div class="hero-heading">
           <div class="hero-bar"></div>
           <div>
-            <p style="font-family:var(--font-display);font-size:clamp(1.8rem,3vw,2.6rem);font-weight:700;color:var(--black);letter-spacing:0.08em;margin-bottom:0.6rem;">史丹福大學 香港學生會</p>
+            <p lang="zh-Hant" style="font-family:var(--font-display);font-size:clamp(1.8rem,3vw,2.6rem);font-weight:700;color:var(--black);letter-spacing:0.08em;margin-bottom:0.6rem;">史丹福大學 香港學生會</p>
             <h1>Hong Kong Student Association at <em>Stanford.</em></h1>
           </div>
         </div>
@@ -755,9 +143,9 @@ $affiliated = [
         <div class="carousel-grid" id="evtGrid">
           <?php foreach ($events as $ev): ?>
           <div class="card">
-            <div class="card-tag"><?= e($ev['tag']) ?></div>
-            <h3><?= e($ev['name']) ?></h3>
-            <p><?= e($ev['description']) ?></p>
+            <div class="card-tag"><?= e($ev['tag'] ?? '') ?></div>
+            <h3><?= e($ev['name'] ?? '') ?></h3>
+            <p><?= e($ev['description'] ?? '') ?></p>
           </div>
           <?php endforeach; ?>
           <?php for ($g = 0; $g < $ghost_count; $g++): ?>
@@ -784,11 +172,13 @@ $affiliated = [
     <div class="card-grid">
       <?php foreach ($current_officers as $o): ?>
       <div class="card">
-        <img src="<?= e($o['headshot']) ?>" alt="<?= e($o['name']) ?>" class="officer-photo" width="250" height="250" />
-        <div class="card-tag"><?= e($o['role']) ?></div>
-        <h3><?= e($o['name']) ?></h3>
+        <img src="<?= e($o['headshot'] ?? '') ?>" alt="<?= e($o['name'] ?? '') ?>" class="officer-photo" width="250" height="250" />
+        <div class="card-tag"><?= e($o['role'] ?? '') ?></div>
+        <h3><?= e($o['name'] ?? '') ?></h3>
         <?php if (!empty($o['bio'])): ?><p><?= e($o['bio']) ?></p><?php endif; ?>
+        <?php if (!empty($o['email'][0])): ?>
         <p><a href="mailto:<?= e($o['email'][0]) ?>" style="color:var(--red);font-size:0.85rem;"><?= e($o['email'][0]) ?></a></p>
+        <?php endif; ?>
       </div>
       <?php endforeach; ?>
     </div>
@@ -798,6 +188,7 @@ $affiliated = [
       document.getElementById('pastOfficers').classList.toggle('open');
       this.querySelector('.toggle-label').textContent = this.classList.contains('open') ? 'Hide past officers' : 'Show past officers';
       this.setAttribute('aria-expanded', this.classList.contains('open') ? 'true' : 'false');
+      document.documentElement.classList.toggle('no-snap', this.classList.contains('open'));
     " aria-expanded="false">
       <span class="toggle-label">Show past officers</span>
       <i class="toggle-chevron">&#9660;</i>
@@ -805,12 +196,12 @@ $affiliated = [
 
     <div class="past-officers" id="pastOfficers">
       <?php foreach ($past_years as $yr): ?>
-      <div class="past-year-label"><?= e(str_replace('-', "\u{2013}", $yr['year'])) ?></div>
+      <div class="past-year-label"><?= e(str_replace('-', "\u{2013}", $yr['year'] ?? '')) ?></div>
       <div class="card-grid">
-        <?php foreach ($yr['officers'] as $o): ?>
+        <?php foreach (($yr['officers'] ?? []) as $o): ?>
         <div class="card">
-          <div class="card-tag"><?= e($o['role']) ?></div>
-          <h3><?= e($o['name']) ?></h3>
+          <div class="card-tag"><?= e($o['role'] ?? '') ?></div>
+          <h3><?= e($o['name'] ?? '') ?></h3>
           <?php /* emails stored in JSON but deliberately not rendered */ ?>
         </div>
         <?php endforeach; ?>
@@ -818,7 +209,7 @@ $affiliated = [
       <?php if (!empty($yr['exec_team'])): ?>
       <div class="exec-row">
         <span class="card-tag" style="margin-bottom:0;">Executive Team</span>
-        <span class="exec-names"><?= e(implode(' · ', array_map(fn($m) => $m['name'], $yr['exec_team']))) ?></span>
+        <span class="exec-names"><?= e(implode(' · ', array_map(fn($m) => $m['name'] ?? '', $yr['exec_team']))) ?></span>
       </div>
       <?php endif; ?>
       <?php endforeach; ?>
@@ -1028,7 +419,7 @@ $affiliated = [
 
     /* ACTIVE NAV HIGHLIGHT via IntersectionObserver */
     (function() {
-      var sections = document.querySelectorAll('div[id="about"], div[id="events"], div[id="people"], div[id="join"]');
+      var sections = document.querySelectorAll('#about, #events, #people, #join, #contact');
       var navLinks = document.querySelectorAll('.nav-links a');
 
       function setActive(id) {
@@ -1049,9 +440,13 @@ $affiliated = [
 
       sections.forEach(function(s) { observer.observe(s); });
 
-      /* clear highlight when scrolled back to hero */
       window.addEventListener('scroll', function() {
-        if (window.scrollY < window.innerHeight * 0.5) clearActive();
+        /* clear highlight when scrolled back to hero */
+        if (window.scrollY < window.innerHeight * 0.5) { clearActive(); return; }
+        /* short footer at page end may never reach the observer's center band — force Contact */
+        if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
+          setActive('contact');
+        }
       }, { passive: true });
     })();
 
