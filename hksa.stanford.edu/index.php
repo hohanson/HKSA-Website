@@ -64,8 +64,6 @@ $affiliated = [
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Stanford HKSA - Hong Kong Student Association</title>
   <link rel="icon" type="image/png" href="assets/favicon.png" />
-  <meta name="description" content="Stanford HKSA is a home away from home for Hong Kong students and anyone who loves the culture. Enjoy HK food, karaoke, mahjong, and good company!" />
-  <meta property="og:description" content="Stanford HKSA is a home away from home for Hong Kong students and anyone who loves the culture. Enjoy HK food, karaoke, mahjong, and good company!" />
   <meta property="og:image" content="assets/og-image.jpg" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
