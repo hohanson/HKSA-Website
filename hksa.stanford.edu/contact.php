@@ -63,6 +63,56 @@ if (!empty($errors)) {
     exit;
 }
 
+/* reCAPTCHA verification */
+$recaptcha_token = trim($_POST['g-recaptcha-response'] ?? '');
+$recaptcha_ok    = false;
+$recaptcha_score = null;
+
+if ($recaptcha_token !== '') {
+    $rc_config = @file_get_contents(__DIR__ . '/../private/hksa/recaptcha.json');
+    if ($rc_config !== false) {
+        $rc      = json_decode($rc_config, true);
+        $version = $rc['version'] ?? 'v3';
+        $secret  = $rc[$version]['secret_key'] ?? '';
+        if ($secret !== '') {
+            $ch = curl_init('https://www.google.com/recaptcha/api/siteverify');
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
+                'secret'   => $secret,
+                'response' => $recaptcha_token,
+            ]));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+            $verify = curl_exec($ch);
+            curl_close($ch);
+            if ($verify !== false) {
+                $result = json_decode($verify, true);
+                if ($version === 'v3') {
+                    $recaptcha_score = $result['score'] ?? null;
+                    if (
+                        !empty($result['success']) &&
+                        ($recaptcha_score ?? 0) >= 0.5 &&
+                        ($result['action'] ?? '') === 'contact'
+                    ) {
+                        $recaptcha_ok = true;
+                    }
+                } else {
+                    /* v2: just check success */
+                    if (!empty($result['success'])) {
+                        $recaptcha_ok = true;
+                    }
+                }
+            }
+        }
+    }
+}
+
+if (!$recaptcha_ok) {
+    http_response_code(422);
+    echo json_encode(['success' => false, 'message' => 'Verification failed. Please refresh and try again.']);
+    exit;
+}
+
 /* Compose email */
 $to         = 'hohanson@stanford.edu';
 $from_email = trim(strtok($to, ','));
@@ -73,9 +123,20 @@ $safe_email   = str_replace(["\r", "\n"], '', $email);
 $safe_subject = str_replace(["\r", "\n"], '', $subject);
 $safe_message = str_replace(["\r\n", "\r"], "\n", $message); /* normalise line endings */
 
+$captcha_str = ($version === 'v3')
+    ? (($recaptcha_score !== null) ? number_format($recaptcha_score, 2) : 'n/a')
+    : 'passed';
+$time_str    = gmdate('Y-m-d H:i:s') . ' UTC';
+$ip_str      = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+
 $body  = $safe_message . "\n\n";
 $body .= "---\n";
-$body .= "Sent via hksa.stanford.edu\n";
+$body .= "Name:     " . $safe_name . "\n";
+$body .= "Email:    " . $safe_email . "\n";
+$body .= "Captcha:  " . $captcha_str . "\n";
+$body .= "Time:     " . $time_str . "\n";
+$body .= "IP:       " . $ip_str . "\n";
+$body .= "Sent via  hksa.stanford.edu\n";
 
 $headers  = "From: Stanford HKSA <" . $from_email . ">\r\n";
 $headers .= "Reply-To: " . $safe_name . " <" . $safe_email . ">\r\n";

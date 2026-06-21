@@ -460,6 +460,9 @@
     /* honeypot — visually hidden */
     .contact-hp { display: none; }
 
+    /* reCAPTCHA v2 widget spacing */
+    .g-recaptcha { margin-top: 0.5rem; }
+
     .contact-subject-wrap {
       position: relative;
     }
@@ -910,6 +913,7 @@
         <div class="contact-hp" aria-hidden="true">
           <input type="text" name="website" tabindex="-1" autocomplete="off" />
         </div>
+        <!-- reCAPTCHA v2 widget appears here when version=v2 in recaptcha.json -->
         <button type="submit" class="contact-submit" id="contactSubmit">Send Message</button>
         <div class="contact-feedback" id="contactFeedback" aria-live="polite"></div>
       </form>
@@ -1097,6 +1101,8 @@
       var subject  = document.getElementById('contactSubject');
       var counter  = document.getElementById('subjectCounter');
       var MAX      = 78;
+      var SITE_KEY = ''; /* hardcoded preview — reCAPTCHA disabled; PHP file has real key */
+      var RC_VER   = 'v3'; /* hardcoded preview — change to 'v2' to test v2 flow locally */
 
       subject.addEventListener('input', function() {
         var remaining = MAX - subject.value.length;
@@ -1114,31 +1120,57 @@
         function resetBtn() {
           btn.textContent = 'Send Message';
           btn.disabled = false;
+          if (RC_VER === 'v2' && typeof grecaptcha !== 'undefined') {
+            grecaptcha.reset();
+          }
         }
 
-        fetch('contact.php', {
-          method: 'POST',
-          body: new FormData(form)
-        })
-        .then(function(res) { return res.json(); })
-        .then(function(data) {
-          if (data.success) {
-            form.reset();
-            counter.textContent = MAX;
-            counter.classList.remove('warn');
-            feedback.textContent = data.message;
-            feedback.classList.add('success');
-          } else {
-            feedback.textContent = data.message;
+        function doSubmit(token) {
+          var fd = new FormData(form);
+          fd.append('g-recaptcha-response', token || '');
+          fetch('contact.php', { method: 'POST', body: fd })
+          .then(function(res) { return res.json(); })
+          .then(function(data) {
+            if (data.success) {
+              form.reset();
+              counter.textContent = MAX;
+              counter.classList.remove('warn');
+              feedback.textContent = data.message;
+              feedback.classList.add('success');
+            } else {
+              feedback.textContent = data.message;
+              feedback.classList.add('error');
+            }
+            resetBtn();
+          })
+          .catch(function() {
+            feedback.textContent = 'Something went wrong. Please try again.';
             feedback.classList.add('error');
+            resetBtn();
+          });
+        }
+
+        if (SITE_KEY && typeof grecaptcha !== 'undefined') {
+          if (RC_VER === 'v3') {
+            grecaptcha.ready(function() {
+              grecaptcha.execute(SITE_KEY, { action: 'contact' })
+              .then(function(token) { doSubmit(token); })
+              .catch(function() { doSubmit(''); });
+            });
+          } else {
+            /* v2: token already in form via widget, read it directly */
+            var token = grecaptcha.getResponse();
+            if (token === '') {
+              feedback.textContent = 'Please complete the CAPTCHA.';
+              feedback.classList.add('error');
+              resetBtn();
+            } else {
+              doSubmit(token);
+            }
           }
-          resetBtn();
-        })
-        .catch(function() {
-          feedback.textContent = 'Something went wrong. Please try again.';
-          feedback.classList.add('error');
-          resetBtn();
-        });
+        } else {
+          doSubmit('');
+        }
       });
     })();
   </script>

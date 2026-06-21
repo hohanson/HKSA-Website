@@ -20,10 +20,13 @@ function load_json(string $path): array {
     return is_array($data) ? $data : [];
 }
 
-$base     = __DIR__ . '/../private/hksa/';
-$events   = load_json($base . 'events.json');
-$people   = load_json($base . 'people.json');
-$links    = load_json($base . 'links.json');
+$base       = __DIR__ . '/../private/hksa/';
+$events     = load_json($base . 'events.json');
+$people     = load_json($base . 'people.json');
+$links      = load_json($base . 'links.json');
+$recaptcha    = load_json($base . 'recaptcha.json');
+$rc_version   = $recaptcha['version'] ?? 'v3';
+$rc_site_key  = $recaptcha[$rc_version]['site_key'] ?? '';
 
 $current_officers = $people['current']['officers'] ?? [];
 $past_years       = $people['past'] ?? [];
@@ -513,6 +516,9 @@ $affiliated = [
     /* honeypot — visually hidden */
     .contact-hp { display: none; }
 
+    /* reCAPTCHA v2 widget spacing */
+    .g-recaptcha { margin-top: 0.5rem; }
+
     .contact-subject-wrap {
       position: relative;
     }
@@ -683,6 +689,13 @@ $affiliated = [
     gtag('js', new Date());
     gtag('config', 'G-TLH5792XHT');
   </script>
+
+  <!-- reCAPTCHA <?= e($rc_version) ?> -->
+  <?php if ($rc_site_key !== '' && $rc_version === 'v3'): ?>
+  <script src="https://www.google.com/recaptcha/api.js?render=<?= e($rc_site_key) ?>"></script>
+  <?php elseif ($rc_site_key !== '' && $rc_version === 'v2'): ?>
+  <script src="https://www.google.com/recaptcha/api.js"></script>
+  <?php endif; ?>
 </head>
 <body>
 
@@ -850,6 +863,10 @@ $affiliated = [
         <div class="contact-hp" aria-hidden="true">
           <input type="text" name="website" tabindex="-1" autocomplete="off" />
         </div>
+        <!-- reCAPTCHA v2 widget -->
+        <?php if ($rc_version === 'v2' && $rc_site_key !== ''): ?>
+        <div class="g-recaptcha" data-sitekey="<?= e($rc_site_key) ?>"></div>
+        <?php endif; ?>
         <button type="submit" class="contact-submit" id="contactSubmit">Send Message</button>
         <div class="contact-feedback" id="contactFeedback" aria-live="polite"></div>
       </form>
@@ -1046,6 +1063,8 @@ $affiliated = [
       var subject  = document.getElementById('contactSubject');
       var counter  = document.getElementById('subjectCounter');
       var MAX      = 78;
+      var SITE_KEY = '<?= e($rc_site_key) ?>';
+      var RC_VER   = '<?= e($rc_version) ?>';
 
       subject.addEventListener('input', function() {
         var remaining = MAX - subject.value.length;
@@ -1063,31 +1082,57 @@ $affiliated = [
         function resetBtn() {
           btn.textContent = 'Send Message';
           btn.disabled = false;
+          if (RC_VER === 'v2' && typeof grecaptcha !== 'undefined') {
+            grecaptcha.reset();
+          }
         }
 
-        fetch('contact.php', {
-          method: 'POST',
-          body: new FormData(form)
-        })
-        .then(function(res) { return res.json(); })
-        .then(function(data) {
-          if (data.success) {
-            form.reset();
-            counter.textContent = MAX;
-            counter.classList.remove('warn');
-            feedback.textContent = data.message;
-            feedback.classList.add('success');
-          } else {
-            feedback.textContent = data.message;
+        function doSubmit(token) {
+          var fd = new FormData(form);
+          fd.append('g-recaptcha-response', token || '');
+          fetch('contact.php', { method: 'POST', body: fd })
+          .then(function(res) { return res.json(); })
+          .then(function(data) {
+            if (data.success) {
+              form.reset();
+              counter.textContent = MAX;
+              counter.classList.remove('warn');
+              feedback.textContent = data.message;
+              feedback.classList.add('success');
+            } else {
+              feedback.textContent = data.message;
+              feedback.classList.add('error');
+            }
+            resetBtn();
+          })
+          .catch(function() {
+            feedback.textContent = 'Something went wrong. Please try again.';
             feedback.classList.add('error');
+            resetBtn();
+          });
+        }
+
+        if (SITE_KEY && typeof grecaptcha !== 'undefined') {
+          if (RC_VER === 'v3') {
+            grecaptcha.ready(function() {
+              grecaptcha.execute(SITE_KEY, { action: 'contact' })
+              .then(function(token) { doSubmit(token); })
+              .catch(function() { doSubmit(''); });
+            });
+          } else {
+            /* v2: token already in form via widget, read it directly */
+            var token = grecaptcha.getResponse();
+            if (token === '') {
+              feedback.textContent = 'Please complete the CAPTCHA.';
+              feedback.classList.add('error');
+              resetBtn();
+            } else {
+              doSubmit(token);
+            }
           }
-          resetBtn();
-        })
-        .catch(function() {
-          feedback.textContent = 'Something went wrong. Please try again.';
-          feedback.classList.add('error');
-          resetBtn();
-        });
+        } else {
+          doSubmit('');
+        }
       });
     })();
   </script>
