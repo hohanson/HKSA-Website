@@ -146,11 +146,41 @@ $affiliated = [
       content: '';
       position: absolute;
       inset: 0;
-      background-image: url('assets/hero.jpg');
+      background-image: url('assets/bg-hero.jpg');
       background-size: cover;
-      background-position: center;
       opacity: 0.15;
       z-index: 0;
+    }
+
+    /* SECTION WRAPS — full-bleed background image containers */
+    .section-wrap {
+      position: relative;
+      overflow: hidden;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+    }
+
+    .section-wrap::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-attachment: fixed;
+      opacity: 0.15;
+      z-index: 0;
+    }
+
+    /* adjust background-position per photo: top / center / bottom / "center 30%" etc. */
+    .hero::before                  { background-position: center; }
+    .section-wrap--about::before   { background-image: url('assets/bg-about.jpg');  background-position: center; }
+    .section-wrap--events::before  { background-image: url('assets/bg-events.jpg'); background-position: top; }
+    .section-wrap--people::before  { background-image: url('assets/bg-people.jpg'); background-position: center; }
+
+    .section-wrap section {
+      position: relative;
+      z-index: 1;
+      width: 100%;
     }
 
     .hero-inner {
@@ -537,6 +567,8 @@ $affiliated = [
         width: 80px;
         min-width: 80px;
       }
+      .hero::before,
+      .section-wrap::before { background-attachment: scroll; }
     }
   </style>
 
@@ -585,16 +617,19 @@ $affiliated = [
   <hr class="divider" />
 
   <!-- ABOUT -->
-  <section id="about">
+  <div class="section-wrap section-wrap--about" id="about">
+  <section>
     <div class="section-label">Who We Are</div>
     <h2 class="section-title">A Hong Kong community at Stanford.</h2>
     <p class="section-body">We are a group of undergraduate and graduate students dedicated to preserving and promoting Hong Kong culture at Stanford, and connecting students passionate about the culture.</p>
   </section>
+  </div>
 
   <hr class="divider" />
 
   <!-- EVENTS -->
-  <section id="events">
+  <div class="section-wrap section-wrap--events" id="events">
+  <section>
     <div class="section-label">What We Do</div>
     <h2 class="section-title">Events throughout the year.</h2>
     <p class="section-body">From food events and mahjong nights to karaoke and movie screenings, we bring Hong Kong culture to life on campus. There&rsquo;s always something on.</p>
@@ -619,11 +654,13 @@ $affiliated = [
     <div class="carousel-dots" id="evtDots"></div>
     <button class="evt-expand-btn" id="evtExpandBtn" onclick="evtToggleExpand()">Show all events &#9660;</button>
   </section>
+  </div>
 
   <hr class="divider" />
 
   <!-- PEOPLE -->
-  <section id="people">
+  <div class="section-wrap section-wrap--people" id="people">
+  <section>
     <div class="section-label">Our Team</div>
     <h2 class="section-title">Student leaders.</h2>
     <p class="section-body">Meet the officers running HKSA this year.</p>
@@ -670,6 +707,7 @@ $affiliated = [
       <?php endforeach; ?>
     </div>
   </section>
+  </div>
 
   <hr class="divider" />
 
@@ -747,7 +785,7 @@ $affiliated = [
       }
 
       function equalizeHeights() {
-        cards.forEach(function(c) { c.style.minHeight = ''; });
+        cards.forEach(function(c) { c.style.display = ''; c.style.minHeight = ''; });
         var maxH = 0;
         cards.forEach(function(c) { var h = c.offsetHeight; if (h > maxH) maxH = h; });
         cards.forEach(function(c) { c.style.minHeight = maxH + 'px'; });
@@ -836,7 +874,7 @@ $affiliated = [
 
     /* ACTIVE NAV HIGHLIGHT via IntersectionObserver */
     (function() {
-      var sections = document.querySelectorAll('section[id], div[id="join"]');
+      var sections = document.querySelectorAll('section[id], div[id="about"], div[id="events"], div[id="people"], div[id="join"]');
       var navLinks = document.querySelectorAll('.nav-links a');
 
       function setActive(id) {
