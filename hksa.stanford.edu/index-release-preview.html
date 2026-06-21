@@ -245,6 +245,9 @@
       background: var(--bg);
     }
 
+    /* IMAGE DOWNLOAD PREVENTION */
+    img { user-select: none; -webkit-user-drag: none; }
+
     /* PAST OFFICERS TOGGLE */
     .past-toggle {
       display: inline-flex;
@@ -855,6 +858,33 @@
 
       window.addEventListener('load', init);
       window.addEventListener('resize', function() { page = 0; expanded = false; init(); });
+    })();
+
+    /* IMAGE DOWNLOAD PREVENTION (casual deterrent -- not cryptographic)
+       Blocks right-click, drag, and common save/source/print shortcuts on all images. */
+    (function() {
+      document.querySelectorAll('img').forEach(function(img) {
+        img.setAttribute('draggable', 'false');
+      });
+
+      document.addEventListener('contextmenu', function(e) {
+        if (e.target.closest('img')) e.preventDefault();
+      });
+
+      document.addEventListener('dragstart', function(e) {
+        if (e.target.closest('img')) e.preventDefault();
+      });
+
+      document.addEventListener('touchstart', function(e) {
+        if (e.target.closest('img')) e.preventDefault();
+      }, { passive: false });
+
+      document.addEventListener('keydown', function(e) {
+        var key = e.key.toLowerCase();
+        if ((e.metaKey || e.ctrlKey) && ['s', 'u', 'p'].includes(key)) {
+          e.preventDefault();
+        }
+      });
     })();
 
     /* ACTIVE NAV HIGHLIGHT via IntersectionObserver */
