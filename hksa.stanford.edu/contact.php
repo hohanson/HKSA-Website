@@ -23,15 +23,20 @@ if (!empty($_POST['website'])) {
     exit;
 }
 
-/* Recipient — defined early because the reCAPTCHA config-failure alert uses it too */
-$to         = 'hohanson@stanford.edu';
-$from_email = trim(explode(',', $to)[0]);
+/* Recipient — loaded from contact.json; falls back to defaults if missing */
+$contact_raw = @file_get_contents(__DIR__ . '/../private/hksa/contact.json');
+$config      = ($contact_raw !== false) ? (json_decode($contact_raw, true) ?? []) : [];
+$recipients  = array_values(array_filter($config['form_recipients'] ?? ['hohanson@stanford.edu']));
+$to          = $recipients[0];
+$cc          = count($recipients) > 1 ? implode(', ', array_slice($recipients, 1)) : '';
+$from_name   = $config['form_sender_name']  ?? 'Stanford HKSA';
+$from_email  = $config['form_sender_email'] ?? 'hohanson@stanford.edu';
 
 /* Sanitise and validate */
 $name    = trim($_POST['name']    ?? '');
 $email   = trim($_POST['email']   ?? '');
 $subject = trim($_POST['subject'] ?? '');
-$message = trim($_POST['message'] ?? '');
+$message = str_replace(["\r\n", "\r"], "\n", trim($_POST['message'] ?? ''));
 
 $errors = [];
 
@@ -74,8 +79,13 @@ $recaptcha_score = null;
 $version         = 'v3';   /* default; overwritten from config when available */
 $config_failed   = false;
 
-if ($recaptcha_token !== '') {
-    $rc_config = @file_get_contents(__DIR__ . '/../private/hksa/recaptcha.json');
+/* bypass: true in recaptcha.json skips verification entirely (for testing) */
+$rc_config_raw = @file_get_contents(__DIR__ . '/../private/hksa/recaptcha.json');
+$rc_config_arr = ($rc_config_raw !== false) ? json_decode($rc_config_raw, true) : [];
+if (!empty($rc_config_arr['bypass'])) {
+    $recaptcha_ok = true;
+} elseif ($recaptcha_token !== '') {
+    $rc_config = $rc_config_raw;
     if ($rc_config === false) {
         $config_failed = true;            /* json missing or unreadable */
     } else {
@@ -128,7 +138,7 @@ if ($config_failed) {
     $last = @file_exists($lock) ? (int) @file_get_contents($lock) : 0;
     if (time() - $last >= 3600) {
         @file_put_contents($lock, (string) time());
-        $alert_headers  = "From: Stanford HKSA <" . $from_email . ">\r\n";
+        $alert_headers  = "From: " . $from_name . " <" . $from_email . ">\r\n";
         $alert_headers .= "MIME-Version: 1.0\r\n";
         $alert_headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
         $alert_body  = "The HKSA contact form could not load reCAPTCHA config and is\n";
@@ -151,7 +161,8 @@ if (!$recaptcha_ok) {
 $safe_name    = str_replace(["\r", "\n"], '', $name);
 $safe_email   = str_replace(["\r", "\n"], '', $email);
 $safe_subject = str_replace(["\r", "\n"], '', $subject);
-$safe_message = str_replace(["\r\n", "\r"], "\n", $message); /* normalise line endings */
+$safe_message = $message; /* line endings already normalised on input */
+$safe_message = wordwrap($safe_message, 998, "\n", true);   /* hard-wrap long lines for Exim (RFC 5322 hard limit) */
 
 $captcha_str = ($version === 'v3')
     ? (($recaptcha_score !== null) ? number_format($recaptcha_score, 2) : 'n/a')
@@ -168,8 +179,11 @@ $body .= "Time:     " . $time_str . "\n";
 $body .= "IP:       " . $ip_str . "\n";
 $body .= "Sent via  hksa.stanford.edu\n";
 
-$headers  = "From: Stanford HKSA <" . $from_email . ">\r\n";
+$headers  = "From: " . $from_name . " <" . $from_email . ">\r\n";
 $headers .= "Reply-To: " . $safe_name . " <" . $safe_email . ">\r\n";
+if ($cc !== '') {
+    $headers .= "Cc: " . $cc . "\r\n";
+}
 $headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
 $headers .= "MIME-Version: 1.0\r\n";
 $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";

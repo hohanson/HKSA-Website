@@ -448,7 +448,8 @@ footer .section-body  { color: var(--border); margin-bottom: 2.5rem; }
 /* reCAPTCHA v2 widget spacing */
 .g-recaptcha { margin-top: 0.5rem; }
 
-.contact-subject-wrap {
+.contact-subject-wrap,
+.contact-message-wrap {
   position: relative;
 }
 
@@ -456,15 +457,33 @@ footer .section-body  { color: var(--border); margin-bottom: 2.5rem; }
   padding-right: 3rem;
 }
 
+.contact-message-wrap textarea {
+  display: block;
+}
+
+.contact-message-wrap::after {
+  content: '';
+  display: block;
+  height: 1.6rem;
+}
+
 .contact-counter {
   position: absolute;
-  right: 0.75rem;
-  top: 50%;
-  transform: translateY(-50%);
   font-size: 0.75rem;
   color: var(--grey);
   pointer-events: none;
   transition: color 0.2s;
+}
+
+.contact-subject-wrap .contact-counter {
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.contact-message-wrap .contact-counter {
+  right: 0;
+  bottom: 0.35rem;
 }
 
 .contact-counter.warn { color: var(--red); }

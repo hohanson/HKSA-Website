@@ -27,6 +27,7 @@ $links      = load_json($base . 'links.json');
 $recaptcha    = load_json($base . 'recaptcha.json');
 $rc_version   = $recaptcha['version'] ?? 'v3';
 $rc_site_key  = $recaptcha[$rc_version]['site_key'] ?? '';
+$rc_bypass    = $recaptcha['bypass'] ?? false;
 
 $current_officers = $people['current']['officers'] ?? [];
 $past_years       = $people['past'] ?? [];
@@ -78,9 +79,9 @@ $affiliated = [
   </script>
 
   <!-- reCAPTCHA <?= e($rc_version) ?> -->
-  <?php if ($rc_site_key !== '' && $rc_version === 'v3'): ?>
+  <?php if (!$rc_bypass && $rc_site_key !== '' && $rc_version === 'v3'): ?>
   <script src="https://www.google.com/recaptcha/api.js?render=<?= e($rc_site_key) ?>"></script>
-  <?php elseif ($rc_site_key !== '' && $rc_version === 'v2'): ?>
+  <?php elseif (!$rc_bypass && $rc_site_key !== '' && $rc_version === 'v2'): ?>
   <script src="https://www.google.com/recaptcha/api.js"></script>
   <?php endif; ?>
 </head>
@@ -248,13 +249,16 @@ $affiliated = [
           <input type="text" name="subject" id="contactSubject" placeholder="Subject" maxlength="78" required />
           <span class="contact-counter" id="subjectCounter">78</span>
         </div>
-        <textarea           name="message" id="contactMessage" placeholder="Message"        required></textarea>
+        <div class="contact-message-wrap">
+          <textarea name="message" id="contactMessage" placeholder="Message" maxlength="3000" required></textarea>
+          <span class="contact-counter" id="messageCounter">3000</span>
+        </div>
         <!-- honeypot -->
         <div class="contact-hp" aria-hidden="true">
           <input type="text" name="website" tabindex="-1" autocomplete="off" />
         </div>
         <!-- reCAPTCHA v2 widget -->
-        <?php if ($rc_version === 'v2' && $rc_site_key !== ''): ?>
+        <?php if (!$rc_bypass && $rc_version === 'v2' && $rc_site_key !== ''): ?>
         <div class="g-recaptcha" data-sitekey="<?= e($rc_site_key) ?>"></div>
         <?php endif; ?>
         <button type="submit" class="contact-submit" id="contactSubmit">Send Message</button>
@@ -456,14 +460,23 @@ $affiliated = [
       var feedback = document.getElementById('contactFeedback');
       var subject  = document.getElementById('contactSubject');
       var counter  = document.getElementById('subjectCounter');
+      var message  = document.getElementById('contactMessage');
+      var msgCtr   = document.getElementById('messageCounter');
       var MAX      = 78;
-      var SITE_KEY = '<?= e($rc_site_key) ?>';
+      var MSG_MAX  = 3000;
+      var SITE_KEY = '<?= $rc_bypass ? '' : e($rc_site_key) ?>';
       var RC_VER   = '<?= e($rc_version) ?>';
 
       subject.addEventListener('input', function() {
         var remaining = MAX - subject.value.length;
         counter.textContent = remaining;
         counter.classList.toggle('warn', remaining <= 10);
+      });
+
+      message.addEventListener('input', function() {
+        var remaining = MSG_MAX - message.value.length;
+        msgCtr.textContent = remaining;
+        msgCtr.classList.toggle('warn', remaining <= 100);
       });
 
       form.addEventListener('submit', function(e) {
@@ -491,6 +504,8 @@ $affiliated = [
               form.reset();
               counter.textContent = MAX;
               counter.classList.remove('warn');
+              msgCtr.textContent = MSG_MAX;
+              msgCtr.classList.remove('warn');
               feedback.textContent = data.message;
               feedback.classList.add('success');
             } else {
